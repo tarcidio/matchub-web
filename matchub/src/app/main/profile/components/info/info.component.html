@@ -1,0 +1,13 @@
+<div class="profile-container">
+  <div class="description">
+    <strong><ng-content select="[type-information]"></ng-content></strong>
+    <p><ng-content select="[descrition-information]"></ng-content></p>
+  </div>
+  <div class="profile-form">
+    <ng-content select=".form-group"></ng-content>
+
+    <div class="button-container">
+      <button type="submit" class="form-button">Salve Changes</button>
+    </div>
+  </div>
+</div>

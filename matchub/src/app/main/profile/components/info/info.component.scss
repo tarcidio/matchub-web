@@ -1,0 +1,61 @@
+.profile-container {
+  display: flex;
+  align-items: stretch;
+  margin: 20px auto;
+  width: 70%; /* Ajustado para reduzir a largura */
+  padding: 0 15px; /* Padding lateral adicionado */
+}
+
+.description {
+  background-color: #555;
+  padding: 10px;
+  padding-top: 3vh;
+  padding-left: 2vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  width: 22%;
+}
+
+.description strong {
+  font-size: 3vh;
+  font-family: "Merriweather", serif;
+  //font-family: Arial, Helvetica, sans-serif;
+}
+
+.description p {
+  font-size: 2vh;
+  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Merriweather", serif;
+}
+
+.profile-form {
+  background-color: #444;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  flex-grow: 1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Alinha o conteúdo à direita */
+}
+
+.form-button {
+  width: 20%;
+  padding: 10px;
+  margin-top: 10px; /* Espaço acima do botão */
+  background-color: #666; /* Cor de fundo do botão */
+  color: #fff; /* Cor do texto */
+  border: none;
+  border-radius: 5px;
+  font-family: "Merriweather", serif;
+  font-size: 2.3vh;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-button:hover {
+  background-color: #777; /* Cor de fundo do botão ao passar o mouse */
+}

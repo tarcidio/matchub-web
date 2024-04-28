@@ -1,0 +1,62 @@
+:host {
+    font-family: Arial, sans-serif;
+    background-image: url('../../../../../img/register.png'); /* Substitua 'sua-imagem-aqui.jpg' pelo caminho da sua imagem */
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-size: cover; /* Garante que a imagem cubra toda a tela */
+    background-position: center; /* Centraliza a imagem na tela */
+    background-repeat: no-repeat; /* Evita a repetição da imagem */
+}
+.register-container {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+h1, h2 {
+    text-align: center;
+}
+h1 {
+    color: #555;
+    margin-bottom: 10px; /* Aumenta a margem inferior para centralizar o nome do aplicativo */
+}
+h2 {
+    color: #333;
+    margin-top: 0; /* Reduz a margem superior para aproximar o título do nome do aplicativo */
+}
+.form-input {
+    margin-bottom: 10px;
+}
+input[type="text"], input[type="email"], input[type="password"], .register-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.register-button {
+    background-color: #555;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.register-button:hover {
+    background-color: #666;
+}
+.links {
+    text-align: center;
+    margin-top: 20px;
+}
+a {
+    color: #333;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

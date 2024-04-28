@@ -1,0 +1,75 @@
+.comment {
+  width: 100%;
+  background: #f0f0f0;
+  padding: 15px;
+  margin-bottom: 2vh;
+  border-top: 1px solid #000000;
+  font-family: "Merriweather", serif; /* Aplica a fonte Merriweather */
+  box-sizing: border-box;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5vh;
+  margin-top: 0.5vh;
+}
+
+.user-image {
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  border: 1px solid #000000;
+}
+
+.username {
+  font-weight: bold;
+  font-size: 3vh;
+}
+
+.user-title {
+  font-size: 2vh;
+  color: #666;
+}
+
+.comment-text {
+  margin-bottom: 10px;
+}
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.like-button,
+.unlike-button {
+  border: none;
+  padding: 5px 18%;
+  //margin-right: 10px;
+  cursor: pointer;
+  font-size: 2.5vh;
+  border-radius: 10px;
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+}
+
+.like-button {
+  background-color: #333;
+  color: #f0f0f0;
+  margin-left: 12vh;
+}
+
+.unlike-button {
+  font-weight: bold;
+  background-color: #555;
+  color: #f0f0f0;
+  margin-right: 12vh;
+}
+
+.likes-unlikes-count {
+  //margin-right: 2vh;
+  font-size: 3.3vh;
+}

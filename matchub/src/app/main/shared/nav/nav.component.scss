@@ -1,0 +1,61 @@
+.navbar {
+    margin: 0;
+    padding: 0;
+    //font-family: Arial, sans-serif;
+    font-family: 'Merriweather', serif;  
+
+    background-color: #333;
+    color: white;
+
+    // background-color: #f0f0f0;
+    // color: rgb(0, 0, 0);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5vh 3vh;
+    padding-right: 5vh;
+    height: 6.0vh;
+    // padding: 10px 20px;
+    border-bottom: 0.2px solid #000000;
+}
+
+.menu-icon {
+    font-size: 4vh;
+    // font-size: 35px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    //background-color: #f0f0f0;
+    border-radius: 50px;
+    // border-bottom: 1px solid #000000;
+    // border-top: 1px solid #000000;
+
+    //border-left: 3px solid #000000;
+    //border-right: 1px solid #000000;
+
+    padding-left: 7vh;
+}
+
+.user-image {
+    width: 6.4vh;
+    height: 6.4vh;
+    // width: 50px;
+    // height: 50px;
+    border-radius: 50%;
+    margin-left: 2vh;
+    margin-right: 2vh;
+    // margin-right: 10px;
+    /* Garantir que a imagem cubra completamente o espaço designado sem distorcer suas proporções */
+    object-fit: cover; 
+    border: 0.5px solid #000000;
+}
+
+.username {
+    font-size: 4.0vh;
+    // font-size: 30px;
+    padding-right: 2vh;
+    //color: rgb(0, 0, 0);
+}

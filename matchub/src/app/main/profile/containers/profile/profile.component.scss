@@ -1,0 +1,44 @@
+.container {
+  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+  padding-top: 20px;
+}
+
+.user-image {
+  display: flex;
+  justify-content: center;
+}
+
+.user-image img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  //background-color: #fff;
+  object-fit: cover;
+  border: 1.8px solid #000000;
+}
+
+.form-group {
+  margin-bottom: 2vh;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Merriweather", serif;
+  font-size: 2vh;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-family: "Merriweather", serif;
+  font-size: 2.3vh;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
