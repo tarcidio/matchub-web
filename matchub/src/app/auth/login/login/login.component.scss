@@ -1,4 +1,4 @@
-:host {
+.login-container {
     font-family: Arial, sans-serif;
     background-image: url('../../../../../img/login.jpg'); /* Substitua 'sua-imagem-aqui.jpg' pelo caminho da sua imagem */
     background-size: cover;
@@ -10,6 +10,8 @@
     background-size: cover; /* Garante que a imagem cubra toda a tela */
     background-position: center; /* Centraliza a imagem na tela */
     background-repeat: no-repeat; /* Evita a repetição da imagem */
+    font-family: "Merriweather", serif;
+    
 }
 h1, h2 {
     text-align: center;
@@ -24,15 +26,25 @@ h2 {
 }
 .form-input {
     margin-bottom: 10px;
+    font-family: "Merriweather", serif;
 }
-input[type="text"], input[type="password"], .login-button {
+
+.form-input label{
+    font-size: 2vh;
+    font-family: "Merriweather", serif;
+}
+
+input, .login-button {
     width: 100%; /* Define a largura como 100% do container */
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box; /* Inclui padding e border na largura total */
+    font-size: 2.3vh;
+    font-family: "Merriweather", serif;
 }
+
 .login-button {
     background-color: #555;
     color: white;
@@ -44,8 +56,18 @@ input[type="text"], input[type="password"], .login-button {
 }
 .links {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 1vh;
 }
+
+.forget{
+    
+    padding-top: 1vh;
+}
+
+.register{
+    padding-top: 1.3vh;
+}
+
 a {
     color: #333;
     text-decoration: none;
@@ -53,3 +75,4 @@ a {
 a:hover {
     text-decoration: underline;
 }
+

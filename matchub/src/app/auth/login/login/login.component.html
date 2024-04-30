@@ -1,22 +1,35 @@
-<app-auth-form>
+<div class="login-container">
+  <app-auth-form>
     <h2>Login</h2>
-    
+
     <div form-content>
-        <div class="form-input">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username">
-        </div>
-        <div class="form-input">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password">
-        </div>
+      <div class="form-input">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Username"
+        />
+      </div>
+      <div class="form-input">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+        />
+      </div>
     </div>
 
     <button class="login-button">→</button>
 
     <div class="links">
-        <a href="#">Forget password?</a>
-        <br>
-        <a href="#">Register</a>
+      <div class="forget"><a href="#">Forget password?</a></div>
+      <div class="register"><a href="#">Register</a></div>
     </div>
-</app-auth-form>
+  </app-auth-form>
+</div>
+<app-footer></app-footer>
+

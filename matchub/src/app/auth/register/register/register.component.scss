@@ -1,5 +1,4 @@
-:host {
-    font-family: Arial, sans-serif;
+.register-container {
     background-image: url('../../../../../img/register.png'); /* Substitua 'sua-imagem-aqui.jpg' pelo caminho da sua imagem */
     background-size: cover;
     display: flex;
@@ -10,13 +9,7 @@
     background-size: cover; /* Garante que a imagem cubra toda a tela */
     background-position: center; /* Centraliza a imagem na tela */
     background-repeat: no-repeat; /* Evita a repetição da imagem */
-}
-.register-container {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-family: "Merriweather", serif;
 }
 h1, h2 {
     text-align: center;
@@ -32,7 +25,14 @@ h2 {
 .form-input {
     margin-bottom: 10px;
 }
-input[type="text"], input[type="email"], input[type="password"], .register-button {
+.form-input label{
+    font-size: 2vh;
+    font-family: "Merriweather", serif;
+}
+
+input, .register-button {
+    font-size: 2.3vh;
+    font-family: "Merriweather", serif;
     width: 100%;
     padding: 10px;
     margin-top: 5px;

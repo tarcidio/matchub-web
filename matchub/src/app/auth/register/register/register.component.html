@@ -1,29 +1,64 @@
-<app-auth-form>
+<div class="register-container">
+  <app-auth-form>
     <h2>Register</h2>
-    <form form-content action="#" method="POST"> <!-- Substitua # pelo script de processamento -->
-        <div class="form-input">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" placeholder="Type you e-mail" required>
-        </div>
-        <div class="form-input">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Choose you username" required>
-        </div>
-        <div class="form-input">
-            <label for="fullname">Full name</label>
-            <input type="text" id="fullname" name="fullname" placeholder="Type your full name" required>
-        </div>
-        <div class="form-input">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Create a password" required>
-        </div>
-        <div class="form-input">
-            <label for="confirm-password">Confirm Password</label>
-            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm password" required>
-        </div>
-        <button type="submit" class="register-button">Register</button>
+    <form form-content action="#" method="POST">
+      <!-- Substitua # pelo script de processamento -->
+      <div class="form-input">
+        <label for="email">E-mail</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Type you e-mail"
+          required
+        />
+      </div>
+      <div class="form-input">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Choose you username"
+          required
+        />
+      </div>
+      <div class="form-input">
+        <label for="fullname">Full name</label>
+        <input
+          type="text"
+          id="fullname"
+          name="fullname"
+          placeholder="Type your full name"
+          required
+        />
+      </div>
+      <div class="form-input">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Create a password"
+          required
+        />
+      </div>
+      <div class="form-input">
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          type="password"
+          id="confirm-password"
+          name="confirm-password"
+          placeholder="Confirm password"
+          required
+        />
+      </div>
+      <button type="submit" class="register-button">Register</button>
     </form>
     <div class="links">
-        <a href="#">Already have an account? Login</a>
+      <a href="#">Already have an account? Login</a>
     </div>
-</app-auth-form>
+  </app-auth-form>
+</div>
+<app-footer></app-footer>
+
