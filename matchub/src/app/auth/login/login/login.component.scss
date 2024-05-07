@@ -13,6 +13,16 @@
     font-family: "Merriweather", serif;
     
 }
+
+.auth-form{
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    width: 20%;
+    //height: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 h1, h2 {
     text-align: center;
 }
@@ -76,3 +86,13 @@ a:hover {
     text-decoration: underline;
 }
 
+.error {
+    color: #a94442;
+    background: #f2dede;
+    border: 1px solid #e4b3b3;
+    border-radius: 2px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 10px;
+  }

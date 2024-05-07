@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
 
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -15,6 +17,8 @@ import { MainModule } from './main/main.module';
     AppRoutingModule,
     AuthModule,
     MainModule,
+    HttpClientModule,
+    //provideHttpClient(withFetch())
   ],
   providers: [
     provideClientHydration()

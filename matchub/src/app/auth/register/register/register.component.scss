@@ -1,62 +1,115 @@
+/* Base Styles */
 .register-container {
-    background-image: url('../../../../../img/register.png'); /* Substitua 'sua-imagem-aqui.jpg' pelo caminho da sua imagem */
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-size: cover; /* Garante que a imagem cubra toda a tela */
-    background-position: center; /* Centraliza a imagem na tela */
-    background-repeat: no-repeat; /* Evita a repetição da imagem */
-    font-family: "Merriweather", serif;
-}
-h1, h2 {
-    text-align: center;
-}
-h1 {
-    color: #555;
-    margin-bottom: 10px; /* Aumenta a margem inferior para centralizar o nome do aplicativo */
-}
-h2 {
-    color: #333;
-    margin-top: 0; /* Reduz a margem superior para aproximar o título do nome do aplicativo */
-}
-.form-input {
-    margin-bottom: 10px;
-}
-.form-input label{
-    font-size: 2vh;
-    font-family: "Merriweather", serif;
+  background-image: url("../../../../../img/register.png"); /* Ajuste o caminho conforme necessário */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  font-family: "Merriweather", serif;
 }
 
-input, .register-button {
-    font-size: 2.3vh;
-    font-family: "Merriweather", serif;
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+.auth-form {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Layout */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-right: 20px;
+}
+
+.form-column:last-child {
+  margin-right: 0;
+}
+
+.form-input {
+  margin-bottom: 7px;
+}
+
+/* Typography */
+h1,
+h2 {
+  text-align: center;
+}
+
+h1 {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: #333;
+  margin-top: 0;
+}
+
+.form-input label {
+  font-size: 2vh;
+  font-family: "Merriweather", serif;
+}
+
+/* Form Elements */
+input,
 .register-button {
-    background-color: #555;
-    color: white;
-    border: none;
-    cursor: pointer;
+  font-size: 2.3vh;
+  font-family: "Merriweather", serif;
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
+
+.register-button {
+  background-color: #555;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
 .register-button:hover {
-    background-color: #666;
+  background-color: #666;
 }
+
+/* Links */
 .links {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
+
 a {
-    color: #333;
-    text-decoration: none;
+  color: #333;
+  text-decoration: none;
 }
+
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+/* Error Styles */
+.error {
+  color: #a94442;
+  background: #f2dede;
+  border: 1px solid #e4b3b3;
+  border-radius: 2px;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 10px;
 }

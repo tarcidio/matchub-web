@@ -1,8 +1,8 @@
 <div class="login-container">
-  <app-auth-form>
+  <div class="auth-form">
     <h2>Login</h2>
 
-    <div form-content>
+    <form form-content [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-input">
         <label for="username">Username</label>
         <input
@@ -10,6 +10,7 @@
           id="username"
           name="username"
           placeholder="Username"
+          formControlName="username"
         />
       </div>
       <div class="form-input">
@@ -19,17 +20,22 @@
           id="password"
           name="password"
           placeholder="Password"
+          formControlName="password"
         />
       </div>
-    </div>
 
-    <button class="login-button">→</button>
+      <button type="submit" class="login-button">→</button>
+    </form>
+
+    <div class="error" *ngIf="error != ''">
+      Invalid username or password.
+    </div>
 
     <div class="links">
       <div class="forget"><a href="#">Forget password?</a></div>
-      <div class="register"><a href="#">Register</a></div>
+      <div class="register"><a routerLink="/auth/register">Register</a></div>
     </div>
-  </app-auth-form>
+  </div>
 </div>
 <app-footer></app-footer>
 
