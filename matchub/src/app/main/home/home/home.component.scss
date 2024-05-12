@@ -1,0 +1,127 @@
+.home-container {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  flex-direction: column; /* Garante que os elementos sejam empilhados verticalmente */
+}
+.container {
+  background: white;
+  //padding-bottom: 3vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+}
+.character {
+  flex: 1;
+  text-align: center;
+  margin: 0; /* Remove margens internas */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.character img {
+  width: 100%;
+  height: 50vh;
+  display: block;
+  object-fit: cover;
+  border-bottom: 1px solid #000000;
+  box-sizing: border-box;
+}
+
+.main img {
+  border-right: 1px solid #000000;
+  border-radius: 10px 0 0 0;
+  /* canto superior esquerdo, canto superior direito, canto inferior direito, canto inferior esquerdo */
+}
+
+.opponent img {
+  border-left: 1px solid #000000;
+  border-radius: 0 10px 0 0;
+  /* canto superior esquerdo, canto superior direito, canto inferior direito, canto inferior esquerdo */
+}
+
+.character select {
+  width: 92.5%;
+  padding: 10px;
+  font-family: "Merriweather", serif; /* Aplica a fonte Merriweather */
+  font-size: 21px;
+  font-weight: bold;
+
+  margin-top: 2.5vh;
+  margin-bottom: 8.8vh;
+
+  //margin-top: 2.5vh; /* Mantém a margem superior */
+  margin-left: auto; /* Centraliza horizontalmente */
+  margin-right: auto; /* Centraliza horizontalmente */
+
+  border: 2px solid #000000;
+  border-radius: 5px;
+  background-color: #ffffff; /* Cor de fundo do campo */
+
+  color: #000000; /* Cor do texto */
+  text-align-last: center; /* Centraliza o texto dentro do select no Firefox e no Chrome */
+  -moz-text-align-last: center; /* Centraliza o texto dentro do select especificamente para Firefox */
+  -webkit-text-align-last: center; /* Centraliza o texto dentro do select especificamente para Chrome e Safari */
+}
+
+.vs {
+  position: absolute; /* Posicionamento absoluto */
+  top: 40%; /* Centraliza verticalmente */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta a posição exata do centro */
+  font-size: 60px;
+  padding: 0 20px;
+  font-weight: bold;
+  color: rgb(255, 255, 255); /* Cor do texto */
+  //background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para destacar sobre as imagens */
+  border-radius: 10px; /* Borda arredondada */
+  z-index: 10; /* Garante que o 'VS' fique sobre as imagens */
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+    2px 2px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000,
+    3px 3px 0 #000; /* Camadas adicionais para uma borda mais grossa */
+}
+
+.matchup-btn {
+  background-color: #333; /* Cor preta para combinar com o tema */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 0 0 10px 10px; /* Arredondamento apenas nos cantos inferiores */
+  position: absolute;
+  left: 50%; /* Centraliza o botão horizontalmente */
+  transform: translateX(-50%); /* Ajuste fino para centralização perfeita */
+  bottom: 0; /* Posiciona na parte inferior do contêiner */
+  width: 100%; /* Ajuste a largura conforme necessário */
+
+  font-family: "Merriweather", serif; /* Aplica a fonte Merriweather */
+  font-size: 21px;
+  font-weight: bold;
+
+  //margin-top: 20px; /* Espaço entre os selects e o botão */
+}
+
+//   .home-container {
+//     padding-bottom: 30px; /* Adiciona padding para evitar sobreposição com o footer */
+//   }
+
+.info-text {
+  background-color: #333; /* Cor de fundo escura para combinar com o tema */
+  color: #ffffff; /* Texto branco para contraste */
+  font-family: "Merriweather", serif; /* Fonte consistente com o resto do site */
+  padding: 2vh; /* Espaçamento interno */
+  text-align: center; /* Centraliza o texto */
+  border-radius: 8px; /* Bordas arredondadas */
+  margin: 20px auto; /* Margem para separar do resto do conteúdo */
+  width: 80%; /* Largura relativa para responsividade */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Sombra para destacar a div */
+}

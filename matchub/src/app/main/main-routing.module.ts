@@ -9,6 +9,11 @@ const routes: Routes = [
       //Se quisessemos não fazer lazy loading, tirar o loadChildren e importar diretamente o container
       //Neste caso, os módulos intermediarios do Screen e Profile não seriam mais necessários
       {
+        path: 'home',
+        loadChildren: () =>
+          import('./home/home.module').then((m) => m.HomeModule),
+      },
+      {
         path: 'screen',
         loadChildren: () =>
           import('./screen/screen.module').then((m) => m.ScreenModule),

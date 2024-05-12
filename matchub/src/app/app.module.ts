@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
 
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/
     AppRoutingModule,
     AuthModule,
     MainModule,
-    HttpClientModule,
+    HttpClientModule
     //provideHttpClient(withFetch())
   ],
   providers: [

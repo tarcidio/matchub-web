@@ -8,21 +8,16 @@ import { ChampionsComponent } from './components/champions/champions.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { UserCommentComponent } from './components/user-comment/user-comment.component';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-  
     ScreenComponent,
-       ChampionsComponent,
-       CommentsComponent,
-       CommentComponent,
-       UserCommentComponent
+    ChampionsComponent,
+    CommentsComponent,
+    CommentComponent,
+    UserCommentComponent,
   ],
-  imports: [
-    CommonModule,
-    ScreenRoutingModule,
-    SharedModule
-  ]
+  imports: [CommonModule, ScreenRoutingModule, SharedModule, FormsModule],
 })
-export class ScreenModule { }
+export class ScreenModule {}

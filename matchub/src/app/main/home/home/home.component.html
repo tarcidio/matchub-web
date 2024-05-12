@@ -1,0 +1,50 @@
+<app-nav></app-nav>
+<div class="home-container">
+  <div class="container">
+    <div class="character main">
+      <img
+        src="{{spotlightImgPath$ | async}}"
+        alt="Selected Spotlight"
+      />
+      <select
+        [(ngModel)]="spotligthNameSelected"
+        (ngModelChange)="updateChampionsImg()"
+      >
+        <option
+          *ngFor="let champion of champions$ | async"
+          [value]="champion.name"
+        >
+          {{ champion.name }}
+        </option>
+      </select>
+    </div>
+    <div class="vs">VS</div>
+    <div class="character opponent">
+      <img
+        src="{{opponentImgPath$ | async}}"
+        alt="Selected Opponent"
+      />
+      <select
+        [(ngModel)]="opponentNameSelected"
+        (ngModelChange)="updateChampionsImg()"
+      >
+        <option
+          *ngFor="let champion of champions$ | async"
+          [value]="champion.name"
+        >
+          {{ champion.name }}
+        </option>
+      </select>
+    </div>
+    <button class="matchup-btn" (click)="seeMatchUp()">See Matchup!</button>
+    <!-- Botão movido para fora das divisões de personagens -->
+  </div>
+
+  <div class="info-text">
+    <p>
+      Descubra o universo das matchups entre campeões como nunca antes! Explore
+      combinações, entenda forças e fraquezas, e aprimore suas estratégias!
+    </p>
+  </div>
+</div>
+<app-footer></app-footer>

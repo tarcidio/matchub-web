@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SignUp } from '../../../classes/signUp/sign-up';
+import { SignUp } from '../../../classes/auth/signUp/sign-up';
 import { AuthService } from '../../shared/service/auth.service';
 import { Router } from '@angular/router';
 
@@ -123,7 +123,7 @@ export class RegisterComponent {
         }
       });
     }else{
-      this.errorMessage = "Forms isn't valid";
+      this.errorMessage = "Please enter a valid information.";
     }
   }
 }

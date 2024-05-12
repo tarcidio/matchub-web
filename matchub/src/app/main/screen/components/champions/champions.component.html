@@ -1,19 +1,39 @@
 <div class="container">
-    <div class="character main">
-        <img src="../../../../../assets/janna.jpg" alt="Janna">
-        <select>
-            <option>Janna</option>
-            <option>Outro Personagem 1</option>
-            <option>Outro Personagem 2</option>
-        </select>
-    </div>
-    <div class="vs">VS</div>
-    <div class="character opponent">
-        <img src="../../../../../assets/renekton.jpg" alt="Renekton">
-        <select>
-            <option>Renekton</option>
-            <option>Outro Personagem 3</option>
-            <option>Outro Personagem 4</option>
-        </select>
-    </div>
+  <div class="character main">
+    <img
+      [src]="spotlightImgPath$ | async"
+      alt="Selected Spotlight"
+    />
+    <!-- ngModel: tag value -->
+    <!-- [()]: two-way binding -->
+    <select
+      [(ngModel)]="spotligthNameSelected"
+      (ngModelChange)="updateScreen()"
+    >
+      <option
+        *ngFor="let champion of champions$ | async"
+        [value]="champion.name"
+      >
+        {{ champion.name }}
+      </option>
+    </select>
+  </div>
+  <div class="vs">VS</div>
+  <div class="character opponent">
+    <img
+      [src]="opponentImgPath$ | async"
+      alt="Selected Opponent"
+    />
+    <select
+      [(ngModel)]="opponentNameSelected"
+      (ngModelChange)="updateScreen()"
+    >
+      <option
+        *ngFor="let champion of champions$ | async"
+        [value]="champion.name"
+      >
+        {{ champion.name }}
+      </option>
+    </select>
+  </div>
 </div>
