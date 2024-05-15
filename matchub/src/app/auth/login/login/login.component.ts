@@ -27,6 +27,13 @@ export class LoginComponent {
     return this.errorMessage;
   }
 
+  resetForms() {
+    this.form.setValue({
+      username: '',
+      password: '',
+    });
+  }
+
   async onSubmit() {
     if (this.form.valid) {
       const hubUser: Login = new Login(
@@ -34,28 +41,20 @@ export class LoginComponent {
         this.form.get('password')!.value!
       );
 
-      try {
-        await this.authService.loginUser(hubUser);
-        this.router.navigate(['/']);
-      } catch (err: any) {
-        this.errorMessage = err.message;
-      }
-
       this.authService.loginUser(hubUser).subscribe({
         next: () => {
           this.router.navigate(['/main/home']);
+          // It's necessary repeat into subscribe because must have when the data comes
+          this.resetForms();
         },
         error: (err) => {
           this.errorMessage = err.message || 'An error occurred during login.';
-        }
-      })
-    }else{
-      this.errorMessage = "Please enter a valid username and password.";
+          this.resetForms();
+        },
+      });
+    } else {
+      this.errorMessage = 'Please enter a valid username and password.';
+      this.resetForms();
     }
-
-    this.form.setValue({
-      username: '',
-      password: '',
-    });
   }
 }

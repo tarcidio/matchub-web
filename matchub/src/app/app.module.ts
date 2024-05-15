@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { MainModule } from './main/main.module';
 
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './auth/shared/service/auth.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,12 @@ import { FormsModule } from '@angular/forms';
     //provideHttpClient(withFetch())
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

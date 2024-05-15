@@ -55,15 +55,22 @@ export class ChampionService {
   public getPathImg(
     name: string | null, // Name of the champion to be searched for
     type: string // Type of default image to return if the champion is not found
-  ): Observable<string | Error> {
+  ): Observable<string> {
     return this.getAllChampions().pipe(
       // Travels through the store's champions vector
       map((champions) => {
-        return champions === undefined // If the array is undefined, it's low connection
-          ? this.getPathDefault(type) // Return default image while the champions isn't loaded
-          : champions.some((champion) => champion.name === name) // Check if the name is valid
-          ? `../../../../assets/champions/${name}_0.jpg` // If yes, give the image
-          : new Error(); // If not, throw a errow
+        // return champions === undefined // If the array is undefined, it's low connection
+        //   ? this.getPathDefault(type) // Return default image while the champions isn't loaded
+        //   : champions.some((champion) => champion.name === name) // Check if the name is valid
+        //   ? `../../../../assets/champions/${name}_0.jpg` // If yes, give the image
+        //   : throwError(() => new Error('Champions not found')) ; // If not, throw a errow
+        if(champions === undefined)
+          return this.getPathDefault(type);
+        else if (champions.some((champion) => champion.name === name))
+          return `../../../../assets/champions/${name}_0.jpg`;
+        else{
+          throw new Error('Champion not found')
+        }
       })
     );
   }

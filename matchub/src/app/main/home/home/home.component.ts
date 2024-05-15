@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   opponentNameSelected: string | undefined;
 
   // Observables to hold the image paths for current selected spotlight and opponent champions
-  spotlightImgPath$: Observable<string | Error> | undefined;
-  opponentImgPath$: Observable<string | Error> | undefined;
+  spotlightImgPath$:  Observable<string>  | undefined;
+  opponentImgPath$:  Observable<string>  | undefined;
 
   constructor(
     private championService: ChampionService, // Injects the ChampionService for fetching champion data
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
   private getRandomChampionImagePath(
     champions: ChampionDetails[],
     type: string
-  ): Observable<string | Error> {
+  ):  Observable<string>  {
     let randomName = '';
 
     if (champions !== undefined) {

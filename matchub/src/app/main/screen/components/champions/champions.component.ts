@@ -22,8 +22,8 @@ export class ChampionsComponent implements OnInit, OnDestroy {
   opponentNameSelected: string | null = null;
 
   // Observables to hold the image paths for current selected spotlight and opponent champions
-  spotlightImgPath$: Observable<string | Error> | undefined;
-  opponentImgPath$: Observable<string | Error> | undefined;
+  spotlightImgPath$: Observable<string>  | undefined;
+  opponentImgPath$: Observable<string> | undefined;
 
   constructor(
     private championService: ChampionService,
@@ -65,6 +65,7 @@ export class ChampionsComponent implements OnInit, OnDestroy {
   private loadImages(): void {
     this.spotlightImgPath$ = this.championService
       .getPathImg(this.spotligthNameSelected, 'Spotlight')
+      //catchError catch only if getPathImg throw erro with "throw new Error()"
       .pipe(catchError(this.handleError.bind(this)));
     this.opponentImgPath$ = this.championService
       .getPathImg(this.opponentNameSelected, 'Opponent')
@@ -78,7 +79,8 @@ export class ChampionsComponent implements OnInit, OnDestroy {
 
   // Handle errors by logging and navigating home
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
+    // It isn't necessary print in console
+    //console.error('An error occurred:', error);
     this.goHome();
     // It's necessary for the pipe to continue returning an observable. So we send an observable that does nothing
     return EMPTY;

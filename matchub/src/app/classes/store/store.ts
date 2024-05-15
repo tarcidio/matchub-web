@@ -5,11 +5,13 @@ import { Injectable } from '@angular/core';
 
 // Obs: it isn't necessary use spotlightName, because each screen is independence
 export interface State {
+    nickname: string | undefined,
     hubUser: HubUserLinks | undefined,
     champions: ChampionDetails[] | undefined
 }
 
 const state: State = {
+    nickname: undefined,
     hubUser : undefined,
     champions: undefined
 };
