@@ -1,43 +1,38 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError, Subscription } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
 import { Store } from '../../../../classes/store/store';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChampionService {
-  private prefixHttp: string = 'http://'; // Prefix for the HTTP protocol
-  private apiUrl: string = this.prefixHttp + 'localhost:8080/'; // Base URL for the API
+  // Base API URL
+  private readonly API_URL = 'http://localhost:8080/';
+  // URL for get champions
+  private readonly GET_CHAMPIONS_URL = `${this.API_URL}champions`;
 
   private headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
   });
 
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-    private router: Router
-  ) {
-    this.loadInitialChampions(); // Loads initial champion data when the service is instantiated
+  constructor(private http: HttpClient, private store: Store) {
+    this.initChampions(); // Loads initial champion data when the service is instantiated
   }
 
   // Loads initial champion data when the service is instantiated.
-  private loadInitialChampions(): void {
+  private initChampions(): void {
     this.http
-      .get<ChampionDetails[]>(`${this.apiUrl}champions`, { headers: this.headers })
-      .pipe(
-        tap((champions) => this.store.set('champions', champions)), // Stores the fetched champions in the local store
-      )
-      .subscribe(); // Subscribes to the observable to trigger the HTTP request
+      .get<ChampionDetails[]>(this.GET_CHAMPIONS_URL, {
+        headers: this.headers,
+      })
+      .subscribe({
+        next: (champions) => this.store.set('champions', champions),
+      });
+    // Subscribes to the observable to trigger the HTTP request and set store
   }
 
   // Selects and returns the champions from the store
@@ -64,12 +59,11 @@ export class ChampionService {
         //   : champions.some((champion) => champion.name === name) // Check if the name is valid
         //   ? `../../../../assets/champions/${name}_0.jpg` // If yes, give the image
         //   : throwError(() => new Error('Champions not found')) ; // If not, throw a errow
-        if(champions === undefined)
-          return this.getPathDefault(type);
+        if (champions === undefined) return this.getPathDefault(type);
         else if (champions.some((champion) => champion.name === name))
           return `../../../../assets/champions/${name}_0.jpg`;
-        else{
-          throw new Error('Champion not found')
+        else {
+          throw new Error('Champion not found');
         }
       })
     );

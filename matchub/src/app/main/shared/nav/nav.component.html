@@ -1,9 +1,13 @@
 <header>
-    <nav class="navbar">
-        <div class="menu-icon">&#9776; MatchHub</div>
-        <div class="user-info">
-            <div class="username">Tarcidio</div>
-            <img src="../../../../assets/tarcidio.jpg" alt="User Icon" class="user-image">
-        </div>
-    </nav>
+  <nav class="navbar">
+    <div class="menu-icon">
+      &#9776; <a routerLink="/main/home">MatchHub</a>
+    </div>
+    <div class="user-info">
+      <a routerLink="/main/profile">
+        <div class="username">{{ nickname$ | async }}</div>
+        <img [src]="hubUserImg$ | async" alt="User Icon" class="user-image">
+      </a>
+    </div>
+  </nav>
 </header>

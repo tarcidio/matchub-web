@@ -1,17 +1,15 @@
 import { Observable, BehaviorSubject, distinctUntilChanged, map } from 'rxjs';
-import { HubUserLinks } from '../hub-user/hub-user-links/hub-user-links';
 import { ChampionDetails } from '../champion/champion-details/champion-details';
 import { Injectable } from '@angular/core';
+import { HubUserDetails } from '../hub-user/hub-user-details/hub-user-details';
 
 // Obs: it isn't necessary use spotlightName, because each screen is independence
 export interface State {
-    nickname: string | undefined,
-    hubUser: HubUserLinks | undefined,
+    hubUser: HubUserDetails | undefined,
     champions: ChampionDetails[] | undefined
 }
 
 const state: State = {
-    nickname: undefined,
     hubUser : undefined,
     champions: undefined
 };

@@ -31,6 +31,7 @@ const routes: Routes = [
       },
     ],
   },
+  // Wildcard: if the user keeps trying to use urls without any pattern
   {path: '**', redirectTo: 'main'}
 ];
 
