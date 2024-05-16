@@ -9,6 +9,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { UserCommentComponent } from './components/user-comment/user-comment.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
 
 @NgModule({
   declarations: [
@@ -16,8 +17,8 @@ import { FormsModule } from '@angular/forms';
     ChampionsComponent,
     CommentsComponent,
     CommentComponent,
-    UserCommentComponent,
+    UserCommentComponent
   ],
-  imports: [CommonModule, ScreenRoutingModule, SharedModule, FormsModule],
+  imports: [CommonModule, ScreenRoutingModule, SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ScreenModule {}

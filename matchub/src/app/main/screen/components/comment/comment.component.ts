@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { CommentDetails } from '../../../../classes/comment/comment-details/comment-details';
 
 @Component({
   selector: 'app-comment',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './comment.component.scss'
 })
 export class CommentComponent {
-
+  @Input()
+  comment: CommentDetails | undefined;
 }

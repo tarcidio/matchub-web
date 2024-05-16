@@ -1,96 +1,60 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
-import { EMPTY, Observable, Subject } from 'rxjs';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ChampionService } from '../../../shared/services/champion/champion.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
 
 @Component({
   selector: 'app-champions',
   templateUrl: './champions.component.html',
   styleUrl: './champions.component.scss',
 })
-export class ChampionsComponent implements OnInit, OnDestroy {
-  // Observable to hold the array of champion details from store
-  champions$: Observable<ChampionDetails[]> | undefined;
-
-  // Subject to trigger unsubscription upon component destruction
-  private destroy$ = new Subject<void>();
-
+export class ChampionsComponent {
   // Current selected champions names for spotlight and opponent
-  spotligthNameSelected: string | null = null;
-  opponentNameSelected: string | null = null;
+  @Input()
+  spotlightNameSelected: string | null | undefined;
+  @Input()
+  opponentNameSelected: string | null | undefined;
+  @Input()
+  champions: ChampionDetails[] | null = null;
+
+  @Output()
+  invalidChampionsNames = new EventEmitter<void>();
+  @Output()
+  updateChampionsNames = new EventEmitter<{
+    spotlightName: string;
+    opponentName: string;
+  }>();
 
   // Observables to hold the image paths for current selected spotlight and opponent champions
-  spotlightImgPath$: Observable<string>  | undefined;
+  spotlightImgPath$: Observable<string> | undefined;
   opponentImgPath$: Observable<string> | undefined;
 
-  constructor(
-    private championService: ChampionService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private championService: ChampionService) {}
 
-  ngOnInit(): void {
-    // Fetch all champions on component
-    this.champions$ = this.championService.getAllChampions();
-
-    // Subscribe to route parameters and handle champion selection
-    /*
-    Why do we need registration here and not in HomeComponent?
-    Answer: In HomeComponent, nothing in ngOnInit has a variable that in the pipe needs to equal one 
-    observable equal to another. Here, however, we need to load the image. So, if we didn't subscribe, 
-    any change to the champions' names, even if they were updated in the pipe, would not trigger loadImages.
-    */
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (params) => {
-        this.spotligthNameSelected = params.get('spotlightName');
-        this.opponentNameSelected = params.get('opponentName');
-
-        !this.spotligthNameSelected || !this.opponentNameSelected
-          ? this.goHome() // Navigate home if no valid champions are selected
-          : this.loadImages(); // Load images for the selected champions
-      },
-      error: () => this.goHome(), // Navigate home on any route parameter error
-    });
-  }
-
-  ngOnDestroy(): void {
-    // Complete the destroy$ subject to clean up the subscriptions
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  // Load images for the selected champions and handle errors
-  private loadImages(): void {
+  ngOnChanges(changes: SimpleChanges) {
     this.spotlightImgPath$ = this.championService
-      .getPathImg(this.spotligthNameSelected, 'Spotlight')
-      //catchError catch only if getPathImg throw erro with "throw new Error()"
+      .getPathImg(this.spotlightNameSelected, 'Spotlight')
       .pipe(catchError(this.handleError.bind(this)));
     this.opponentImgPath$ = this.championService
       .getPathImg(this.opponentNameSelected, 'Opponent')
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-  // Navigate to the home route
-  private goHome(): void {
-    this.router.navigate(['/main/home']);
-  }
-
   // Handle errors by logging and navigating home
   private handleError(error: any): Observable<never> {
-    // It isn't necessary print in console
-    //console.error('An error occurred:', error);
-    this.goHome();
+    console.log('ainda esta entrnado aqui');
+    this.invalidChampionsNames.emit();
     // It's necessary for the pipe to continue returning an observable. So we send an observable that does nothing
     return EMPTY;
   }
 
   // Public method to update the screen based on the selected champions
   public updateScreen(): void {
-    this.router.navigate([
-      `/main/screen/${this.spotligthNameSelected}/${this.opponentNameSelected}`,
-    ]);
+    this.updateChampionsNames.emit({
+      spotlightName: this.spotlightNameSelected!,
+      opponentName: this.opponentNameSelected!,
+    });
   }
 }
 
@@ -183,6 +147,3 @@ getPathImgChampion(idChampion: number): Observable<string> | undefined {
   }
 
 */
-
-/* A ONDE ENTRA STORE NESSA HISTORIA TODA AI PORRA: TEM QUE PEGAR OS ID OU O PROPRIO CHAMPION DO STORE */
-/* TEM QUE TRATAR O CASO DE A SOLICITACAO NO SERVICE DER ERRO: IR PARA LOGIN */

@@ -102,7 +102,7 @@ export class RegisterComponent {
     return  (isEqualPassword || isRequiredError) && isTouched;
   }
   
-  async onSubmit(){
+  onSubmit(){
     if(this.form.valid){
       const hubUser: SignUp = new SignUp(
         // It's need afirm that isn't null

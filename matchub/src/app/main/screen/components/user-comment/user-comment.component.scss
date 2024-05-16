@@ -1,5 +1,4 @@
-.container{
-  
+.container {
   padding: 10px;
   font-family: "Merriweather", serif;
 
@@ -14,7 +13,6 @@
   background: #f0f0f0;
 
   border-top: 2vh solid #f0f0f0;
-
 }
 .comment-box {
   //margin-bottom: 1vh;
@@ -30,7 +28,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  
 }
 
 .user-avatar {
@@ -40,6 +37,23 @@
   margin-right: 10px;
   object-fit: cover;
   border: 1px solid #000000;
+}
+
+.form-comment {
+  //margin-bottom: 1vh;
+  //border-bottom: 1vh solid #f0f0f0;
+  //border-top: 2.5vh solid #f0f0f0;
+  //padding: 10px;
+  border-radius: 15px;
+
+  background-color: #333;
+  width: 97.5%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-family: "Merriweather", serif;
 }
 
 .comment-input {

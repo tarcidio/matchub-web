@@ -27,14 +27,14 @@ export class LoginComponent {
     return this.errorMessage;
   }
 
-  resetForms() {
-    this.form.setValue({
+  private resetForms() {
+    this.form.reset({
       username: '',
       password: '',
     });
   }
 
-  async onSubmit() {
+  public onSubmit() : void{
     if (this.form.valid) {
       const hubUser: Login = new Login(
         this.form.get('username')!.value!,

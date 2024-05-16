@@ -48,22 +48,18 @@ export class ChampionService {
   and make an http call with the link created from the champion's name.
   */
   public getPathImg(
-    name: string | null, // Name of the champion to be searched for
+    name: string | null | undefined, // Name of the champion to be searched for
     type: string // Type of default image to return if the champion is not found
   ): Observable<string> {
     return this.getAllChampions().pipe(
       // Travels through the store's champions vector
       map((champions) => {
-        // return champions === undefined // If the array is undefined, it's low connection
-        //   ? this.getPathDefault(type) // Return default image while the champions isn't loaded
-        //   : champions.some((champion) => champion.name === name) // Check if the name is valid
-        //   ? `../../../../assets/champions/${name}_0.jpg` // If yes, give the image
-        //   : throwError(() => new Error('Champions not found')) ; // If not, throw a errow
-        if (champions === undefined) return this.getPathDefault(type);
+        if (champions === undefined || name === undefined) 
+          return this.getPathDefault(type);
         else if (champions.some((champion) => champion.name === name))
           return `../../../../assets/champions/${name}_0.jpg`;
         else {
-          throw new Error('Champion not found');
+          return this.getPathDefault(type);
         }
       })
     );

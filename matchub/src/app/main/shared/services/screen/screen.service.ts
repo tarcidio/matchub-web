@@ -13,15 +13,15 @@ export class ScreenService {
 
   constructor(private http: HttpClient) {}
 
-  private prefixHttp: string = 'http://';
-  private apiUrl: string = this.prefixHttp + 'localhost:8080/';
+  // Base API URL
+  private readonly API_URL = 'http://localhost:8080/';
+  // URL for refreshing tokens
+  private readonly SCREEN_URL = `${this.API_URL}screens/`;
 
-  private getHeader(): HttpHeaders{
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-    });
-  }
+  private headers: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
+  });
 
   private handleError(error: HttpErrorResponse) {
     let message = '';
@@ -35,18 +35,9 @@ export class ScreenService {
     return throwError(() => new Error(message));
   }
 
-  // public getAllChampions(): Observable<ChampionDetails[]> {
-  //   return this.http.get<ChampionDetails[]>(`${this.apiUrl}champions`, { headers: this.getHeader() })
-  //     .pipe(
-  //       catchError(this.handleError)
-  //     );
-  // } 
-
-  public getScreen(screenId : number){
-    return this.http.get<ScreenDetails>(`${this.apiUrl}screens/${screenId}`, { headers: this.getHeader() })
-      .pipe(
-        catchError(this.handleError)
-      );
+  public getScreen(spotligthId : number, opponentId : number): Observable<ScreenDetails>{
+    const GET_SCREEN_URL : string = this.SCREEN_URL + spotligthId + '/' + opponentId;
+    return this.http.get<ScreenDetails>(GET_SCREEN_URL, { headers: this.headers });
   }
 
 

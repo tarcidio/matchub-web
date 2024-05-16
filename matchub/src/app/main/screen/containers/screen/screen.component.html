@@ -1,7 +1,13 @@
 <app-nav></app-nav>
-<div class = "container">
-    <app-champions></app-champions>
-    <app-user-comment></app-user-comment>
-    <app-comments></app-comments>
+<div class="container">
+  <app-champions
+    [spotlightNameSelected]="spotligthNameSelected"
+    [opponentNameSelected]="opponentNameSelected"
+    [champions]="champions$ | async"
+    (invalidChampionsNames)="invalidChampionsNames()"
+    (updateChampionsNames)="updateScreen($event)"
+  ></app-champions>
+  <app-user-comment [names]="[spotligthNameSelected, opponentNameSelected]" (sendComment)="sendComment($event)"></app-user-comment>
+  <app-comments [comments]="comments"></app-comments>
 </div>
 <app-footer></app-footer>
