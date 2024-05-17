@@ -2,10 +2,7 @@
 <div class="home-container">
   <div class="container">
     <div class="character main">
-      <img
-        src="{{spotlightImgPath$ | async}}"
-        alt="Selected Spotlight"
-      />
+      <img src="{{ spotlightImgPath$ | async }}" alt="Selected Spotlight" />
       <select
         [(ngModel)]="spotligthNameSelected"
         (ngModelChange)="updateChampionsImg()"
@@ -20,10 +17,7 @@
     </div>
     <div class="vs">VS</div>
     <div class="character opponent">
-      <img
-        src="{{opponentImgPath$ | async}}"
-        alt="Selected Opponent"
-      />
+      <img src="{{ opponentImgPath$ | async }}" alt="Selected Opponent" />
       <select
         [(ngModel)]="opponentNameSelected"
         (ngModelChange)="updateChampionsImg()"
@@ -42,8 +36,9 @@
 
   <div class="info-text">
     <p>
-      Descubra o universo das matchups entre campeões como nunca antes! Explore
-      combinações, entenda forças e fraquezas, e aprimore suas estratégias!
+      Discover the universe of champion matchups like never before! Explore
+      combinations, understand strengths, and improve your
+      strategies!
     </p>
   </div>
 </div>

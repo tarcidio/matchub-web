@@ -15,4 +15,7 @@
       <button class="send-button" type="submit">Send</button>
     </form>
   </div>
+  <div *ngIf="invalidComment" class="error-message">
+    Comment must be between 1 and 280 characters.
+  </div>
 </div>

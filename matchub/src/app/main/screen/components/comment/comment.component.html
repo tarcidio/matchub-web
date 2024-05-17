@@ -7,14 +7,45 @@
     />
     <div>
       <div class="username">{{ comment?.hubUser?.nickname }}</div>
-      <div class="user-title">{{ comment?.hubUser?.summonerName }}</div>
+      <div *ngIf="isConnectRSO; else notConnected" class="user-title">
+        {{ comment?.hubUser?.summonerName }}
+      </div>
+      <ng-template #notConnected>
+        <div class="user-title">User is not logged in with Riot Account</div>
+      </ng-template>
     </div>
   </div>
   <p class="comment-text">{{ comment?.text }}</p>
   <div class="comment-actions">
-    <button class="like-button">Like</button>
-    <span class="likes-unlikes-count">0</span>
-    <span class="likes-unlikes-count">0</span>
-    <button class="unlike-button">Unlike</button>
+    <button
+      *ngIf="!hasLiked"
+      (click)="manageLikeSystem('like', 'up')"
+      class="like-unlike-button like-button"
+    >
+      Like
+    </button>
+    <button
+      *ngIf="hasLiked"
+      (click)="manageLikeSystem('like', 'down')"
+      class="like-unlike-button like-button liked"
+    >
+      Liked
+    </button>
+    <span class="likes-unlikes-count">{{numLikes}}</span>
+    <span class="likes-unlikes-count">{{numUnlikes}}</span>
+    <button
+      *ngIf="!hasUnliked"
+      (click)="manageLikeSystem('unlike', 'up')"
+      class="like-unlike-button unlike-button"
+    >
+      Unlike
+    </button>
+    <button
+      *ngIf="hasUnliked"
+      (click)="manageLikeSystem('unlike', 'down')"
+      class="like-unlike-button unlike-button unliked"
+    >
+      Unliked
+    </button>
   </div>
 </div>

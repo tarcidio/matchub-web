@@ -43,9 +43,7 @@ export class ChampionService {
   // Returns an observable for the image path that may vary if the store is not properly loaded
   /*
   Currently, the images are in the frontend. This is not efficient. The idea is to migrate the images to a 
-  cloud service so that users only upload the necessary images. Based on this idea, the function 
-  returning an Observable is very good, because, to refactor, we will only need to change this function 
-  and make an http call with the link created from the champion's name.
+  cloud service so that users only upload the necessary images.
   */
   public getPathImg(
     name: string | null | undefined, // Name of the champion to be searched for
@@ -54,19 +52,20 @@ export class ChampionService {
     return this.getAllChampions().pipe(
       // Travels through the store's champions vector
       map((champions) => {
-        if (champions === undefined || name === undefined) 
-          return this.getPathDefault(type);
-        else if (champions.some((champion) => champion.name === name))
-          return `../../../../assets/champions/${name}_0.jpg`;
-        else {
-          return this.getPathDefault(type);
-        }
+        if (
+          champions !== undefined &&
+          name !== undefined &&
+          champions.some((champion) => champion.name === name)
+        )
+          // return `https://ddragon.leagueoflegends.com/cdn/img/champion/centered/${name}_0.jpg`;
+          return `../../../../../assets/champions/${name}_0.jpg`;
+        else return this.getPathDefault(type);
       })
     );
   }
 
   // Returns the path to a default image based on the type.
-  private getPathDefault(type: string) {
+  private getPathDefault(type: string): string {
     return '../../../../../assets/default' + type + '.jpg';
   }
 }

@@ -1,4 +1,4 @@
 export enum EvaluationLevel {
-  BAD,
-  GOOD,
+  BAD = "BAD",
+  GOOD = "GOOD",
 }

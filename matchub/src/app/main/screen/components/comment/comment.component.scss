@@ -44,8 +44,7 @@
   justify-content: space-between;
 }
 
-.like-button,
-.unlike-button {
+.like-unlike-button {
   border: none;
   padding: 5px 18%;
   //margin-right: 10px;
@@ -54,22 +53,30 @@
   border-radius: 10px;
   font-family: "Merriweather", serif;
   font-weight: bold;
+  background-color: #d6d6d6;
+  color: #000000;
+  font-weight: bold;
 }
 
 .like-button {
-  background-color: #333;
-  color: #f0f0f0;
   margin-left: 12vh;
 }
 
 .unlike-button {
-  font-weight: bold;
-  background-color: #555;
-  color: #f0f0f0;
   margin-right: 12vh;
 }
 
 .likes-unlikes-count {
   //margin-right: 2vh;
   font-size: 3.3vh;
+}
+
+.liked {
+  background-color: #000000; /* Verde para indicar que o like foi dado */
+  color: white;
+}
+
+.unliked {
+  background-color: #d71d1d; /* Verde para indicar que o like foi dado */
+  color: white;
 }

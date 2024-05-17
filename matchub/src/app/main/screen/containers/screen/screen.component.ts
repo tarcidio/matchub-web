@@ -154,7 +154,10 @@ export class ScreenComponent implements OnInit {
     this.destroy$.complete();
   }
 
+
   public sendComment(event: CommentBase): void {
+    // Não há necessidade de cancelar a inscrição porque observable de posts 
+    // completam logo após a requisição finalizar
     if (this.screenId) {
       this.commentService.addComment(this.screenId, event).subscribe({
         next: (newComment) => {

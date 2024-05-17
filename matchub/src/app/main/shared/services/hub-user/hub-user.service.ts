@@ -42,4 +42,10 @@ export class HubUserService {
   public getImgHubUser(): Observable<string> {
     return of('../../../../../assets/defaultHubUser.jpg');
   }
+
+  public getHubUserId(){
+    return this.store
+      .select<HubUserDetails>('hubUser')
+      .pipe(map((hubUser) => (hubUser && hubUser.id) || undefined));
+  }
 }
