@@ -43,3 +43,51 @@ input {
   font-weight: bold;
   color: rgb(0, 0, 0);
 }
+
+.button-save-changes-container {
+  display: flex;
+  justify-content: flex-end; /* Alinha o conteúdo à direita */
+}
+
+.form-button {
+  width: 20%;
+  padding: 10px;
+  margin-top: 10px; /* Espaço acima do botão */
+  background-color: #666; /* Cor de fundo do botão */
+  color: #fff; /* Cor do texto */
+  border: none;
+  border-radius: 5px;
+  font-family: "Merriweather", serif;
+  font-size: 2.3vh;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-button:hover {
+  background-color: #777; /* Cor de fundo do botão ao passar o mouse */
+}
+
+.button-quit-container {
+  display: flex;
+  justify-content: center; /* Centraliza o botão na div */
+  margin-top: 20px; /* Espaço acima do botão */
+}
+
+.button-quit-container button {
+  //width: 60%;
+  padding: 10px 20px; /* Padding mais largo para melhor clique */
+  background-color: #a33; /* Cor de fundo vermelha para indicar ação de saída */
+  color: #fff; /* Cor do texto branco */
+  border: none;
+  border-radius: 5px;
+  font-family: "Merriweather", serif;
+  font-size: 2.3vh;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button-quit-container button:hover {
+  background-color: #b44; /* Cor de fundo mais clara ao passar o mouse */
+}

@@ -37,27 +37,3 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   flex-grow: 1;
 }
-
-.button-container {
-  display: flex;
-  justify-content: flex-end; /* Alinha o conteúdo à direita */
-}
-
-.form-button {
-  width: 20%;
-  padding: 10px;
-  margin-top: 10px; /* Espaço acima do botão */
-  background-color: #666; /* Cor de fundo do botão */
-  color: #fff; /* Cor do texto */
-  border: none;
-  border-radius: 5px;
-  font-family: "Merriweather", serif;
-  font-size: 2.3vh;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.form-button:hover {
-  background-color: #777; /* Cor de fundo do botão ao passar o mouse */
-}

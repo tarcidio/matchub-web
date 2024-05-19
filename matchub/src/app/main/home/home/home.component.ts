@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { ChampionDetails } from '../../../classes/champion/champion-details/champion-details';
 import { ChampionService } from '../../shared/services/champion/champion.service';
 import { Router } from '@angular/router';
@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   opponentNameSelected: string | undefined;
 
   // Observables to hold the image paths for current selected spotlight and opponent champions
-  spotlightImgPath$:  Observable<string>  | undefined;
-  opponentImgPath$:  Observable<string>  | undefined;
+  spotlightImgPath$: Observable<string> | undefined;
+  opponentImgPath$: Observable<string> | undefined;
 
   constructor(
     private championService: ChampionService, // Injects the ChampionService for fetching champion data
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
       )
     );
 
-     // Sets up the observable to fetch a random opponent champion image path
+    // Sets up the observable to fetch a random opponent champion image path
     this.opponentImgPath$ = this.champions$.pipe(
       switchMap((champions) =>
         this.getRandomChampionImagePath(champions, 'Opponent')
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
   private getRandomChampionImagePath(
     champions: ChampionDetails[],
     type: string
-  ):  Observable<string>  {
+  ): Observable<string> {
     let randomName = '';
 
     if (champions !== undefined) {

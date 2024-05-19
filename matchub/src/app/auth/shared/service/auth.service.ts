@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable, NgZone } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -7,12 +7,12 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { EMPTY, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
 import { SignUp } from '../../../classes/auth/signUp/sign-up';
 import { AuthResponse } from '../../../classes/auth/auth-response/auth-response';
 import { Login } from '../../../classes/auth/login/login';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { Store } from '../../../classes/store/store';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +27,10 @@ export class AuthService implements HttpInterceptor {
   private readonly REGISTER_URL = `${this.API_URL}auth/register`;
   // URL for user login
   private readonly LOGIN_URL = `${this.API_URL}auth/authenticate`;
+  // URL for user logout
+  private readonly LOGOUT_URL = `${this.API_URL}auth/logout`;
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   /* LOGIN, LOGOUT AND TOKEN MANAGEMENT */
 
@@ -38,9 +40,9 @@ export class AuthService implements HttpInterceptor {
   }
 
   // Log out the user by removing the access token from local storage and reloading the page
-  public logout(): void {
+  private logoutActions(): void {
     localStorage.clear();
-    window.location.reload();
+    this.router.navigate(['auth/login']);
   }
 
   // Save the access token and nickname to local storage and store
@@ -48,7 +50,7 @@ export class AuthService implements HttpInterceptor {
     localStorage.setItem('accessToken', authResponse.accessToken);
   }
 
-  /* LOGIN AND SIGNUP MANAGEMENT */
+  /* LOGIN, SIGNUP AND LOGOUT MANAGEMENT */
 
   // Register a new user
   public registerUser(hubUser: SignUp): Observable<void> {
@@ -72,30 +74,43 @@ export class AuthService implements HttpInterceptor {
         })
         .pipe(
           map((authResponse) => this.saveToken(authResponse)),
+          tap(() => console.log(document.cookie)),
           catchError(this.handleError.bind(this, 'login'))
         )
     );
   }
 
+  // Log out the user by calling the backend logout endpoint
+  public logout(): Observable<void> {
+    return this.http
+      .post<void>(this.LOGOUT_URL, null, { withCredentials: true })
+      .pipe(
+        tap(() => this.logoutActions()),
+        catchError(this.handleError.bind(this, 'logout'))
+      );
+  }
+
   // Handle errors for login and registration
-  private handleError(type: string, error: HttpErrorResponse) {
-    let message =
-      type === 'login'
-        ? 'Login failed: Unknown error'
-        : 'Registration failed: Unknown error';
-    if (error.status === 403) {
-      // Custom message for 403 Forbidden
-      message =
-        type === 'login'
-          ? 'Your username or password may be incorrect'
-          : 'This user already exists';
+  private handleError(
+    type: string,
+    error: HttpErrorResponse
+  ): Observable<never> {
+    let message: string = '';
+    if (error.status >= 500) message = 'Server is offline';
+    else if (type === 'login' && error.status === 401) {
+      message = 'Your username or password may be incorrect';
+    } else if (type === 'register' && error.status === 401) {
+      message = 'This user already exists';
+    } else if (type === 'logout' && error.status === 401) {
+      message = 'Session expired before logout';
     } else {
-      message = type === 'login' ? 'Login failed: ' : 'Registration failed: ';
       message =
-        error.error instanceof ErrorEvent
+        'Unkown error: ' +
+        (error.error instanceof ErrorEvent
           ? message + error.error.message
-          : message + error.message;
+          : message + error.message);
     }
+
     return throwError(() => new Error(message));
   }
 
@@ -108,7 +123,9 @@ export class AuthService implements HttpInterceptor {
   which is intercepted by intercept, which in turn makes another request to update the jwt 
   (believing that only jwt is expired )
   */
-  isRefreshing: boolean = false;
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<string | null> =
+    new BehaviorSubject<string | null>('');
 
   // IMPORTANT: do the import in provider in app.module
   // Intercept HTTP requests to handle token expiration
@@ -116,63 +133,73 @@ export class AuthService implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
-      catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          // 401 error code means token is either invalid or expired
-          return this.handle401Error(request, next);
-        }
-        return throwError(() => error);
-      })
-    );
+    return request.url === this.REFRESH_TOKEN_URL
+      ? next.handle(request)
+      : next.handle(request).pipe(
+          catchError((error) => {
+            if (error instanceof HttpErrorResponse && error.status === 401) {
+              return this.handle401Error(request, next);
+            }
+            return throwError(() => error);
+          })
+        );
   }
 
-  // Handle 401 errors by refreshing the token
   private handle401Error(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // If this is the first time you are doing the refresh, try doing the refresh
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      return this.http
-        .get<AuthResponse>(this.REFRESH_TOKEN_URL, {
-          withCredentials: true,
+      this.refreshTokenSubject.next(null); // Indica que a renovação está em andamento
+
+      return this.refreshToken().pipe(
+        switchMap((authResponse) => {
+          this.isRefreshing = false;
+          this.saveToken(authResponse);
+          this.refreshTokenSubject.next(authResponse.accessToken); // Atualiza com o novo token
+          return next.handle(this.addTokenHeader(request, authResponse.accessToken));
+        }),
+        catchError((err) => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(''); // Atualiza para indicar falha
+          this.logoutActions();
+          return throwError(() => err);
         })
-        .pipe(
-          switchMap((authResponse) => {
-            this.isRefreshing = false;
-            // If you managed to renew, then update with the new token
-            this.saveToken(authResponse);
-
-            // Clone the old request and replace the original headers with
-            // updated headers containing the new token
-            const clonedRequest = request.clone({
-              headers: request.headers.set(
-                'Authorization',
-                'Bearer ' + authResponse.accessToken
-              ),
-            });
-
-            // Continue with the new request
-            return next.handle(clonedRequest);
-          })
-        );
+      );
     } else {
-      // If not, it means that the refresh token has expired and it is time to log out
-      this.isRefreshing = false;
-      //this.logout();
-      return EMPTY; // Requires that it returns an observable, so let's return one, but one that does nothing
+      return this.refreshTokenSubject.pipe(
+        filter((token) => token !== null), // Agora também precisa lidar com a falha
+        take(1),
+        //**`take(1)`**: Este operador garante que apenas o primeiro valor que passa pelo `filter` (o primeiro token não nulo) seja usado e, em seguida, completa o fluxo. Isso significa que ele está esperando por uma única emissão válida do token e depois desinscreve do `BehaviorSubject`.
+        switchMap((token) => {
+          return token === ''
+            ? EMPTY
+            : next.handle(this.addTokenHeader(request, token));
+        }),
+        catchError((err) => {
+          // Trata o caso em que nenhum token válido é recebido
+          return throwError(
+            () =>
+              new Error(
+                'Falha na autenticação, por favor faça login novamente.'
+              )
+          );
+        })
+      );
     }
   }
 
-  public refreshToken(): Observable<void> {
-    return this.http
-      .get<AuthResponse>(this.REFRESH_TOKEN_URL, {
-        withCredentials: true,
-      })
-      .pipe(map((authResponse) => this.saveToken(authResponse)));
-    // You don't need to catch the error due to the intercept
+  private addTokenHeader(request: HttpRequest<any>, token: string | null) {
+    return request.clone({
+      headers: request.headers.set('Authorization', 'Bearer ' + token),
+    });
+  }
+
+  private refreshToken(): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(this.REFRESH_TOKEN_URL, null, {
+      withCredentials: true,
+    });
   }
 }
 

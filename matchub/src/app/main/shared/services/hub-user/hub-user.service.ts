@@ -26,7 +26,7 @@ export class HubUserService {
   private initUser(): void {
     this.http
       .get<HubUserDetails[]>(this.GET_LOGGED_URL, {
-        headers: this.headers,
+        headers: this.headers, 
       })
       .subscribe({ next: (hubUser) => this.store.set('hubUser', hubUser) }); // Subscribes to the observable to trigger the HTTP request
   }
