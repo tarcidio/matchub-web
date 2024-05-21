@@ -15,6 +15,7 @@ export class HubUserDetails extends HubUserBase {
     public override region: Region,
 
     public id: number,
+    public username: string,
     public summonerName: string,
     public blocked: boolean,
     public role: Role,

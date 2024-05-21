@@ -42,6 +42,7 @@ export class AuthService implements HttpInterceptor {
   // Log out the user by removing the access token from local storage and reloading the page
   private logoutActions(): void {
     localStorage.clear();
+    // criar um modal e deixar ele por 1 segundo dizendo que precisa entrar e novo
     this.router.navigate(['auth/login']);
   }
 

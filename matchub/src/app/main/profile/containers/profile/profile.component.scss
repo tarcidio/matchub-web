@@ -32,7 +32,8 @@ label {
   font-size: 2vh;
 }
 
-input {
+input,
+.pseudo-input {
   width: 100%;
   padding: 10px;
   border: none;
@@ -42,6 +43,10 @@ input {
   font-size: 2.3vh;
   font-weight: bold;
   color: rgb(0, 0, 0);
+}
+
+.pseudo-input {
+  color: rgb(255, 255, 255);
 }
 
 .button-save-changes-container {
@@ -86,8 +91,152 @@ input {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 3vh;
 }
 
 .button-quit-container button:hover {
   background-color: #b44; /* Cor de fundo mais clara ao passar o mouse */
 }
+
+.profile-container {
+  display: flex;
+  align-items: stretch;
+  margin: 20px auto;
+  width: 70%; /* Ajustado para reduzir a largura */
+  padding: 0 15px; /* Padding lateral adicionado */
+}
+
+.description {
+  background-color: #555;
+  padding: 10px;
+  padding-top: 3vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  width: 22%;
+}
+
+.description strong {
+  font-size: 3vh;
+  font-family: "Merriweather", serif;
+  //font-family: Arial, Helvetica, sans-serif;
+}
+
+.description p {
+  font-size: 2vh;
+  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Merriweather", serif;
+}
+
+.profile-form {
+  background-color: #444;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  flex-grow: 1;
+}
+
+// MODAL
+
+/* Estilos comuns para ambos os modais */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  animation: modalFadeIn 0.3s;
+}
+
+/* Animação de entrada */
+@keyframes modalFadeIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-button {
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+}
+
+/* Estilos específicos para o Modal de Atualização */
+.modal-update .modal-content-update {
+  background-color: #222;
+  border: 1px solid #555;
+  width: 30%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-update .close-button-update {
+  background-color: #444;
+}
+
+.modal-update .close-button-update:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
+
+/* Estilos específicos para o Modal de Saída */
+.modal-exit .modal-content-exit {
+  background-color: #333;
+  border: 1px solid #666;
+  width: 25%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4), 0 7px 25px rgba(0, 0, 0, 0.4);
+}
+
+.exit-button {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.yes-button {
+  background-color: #d9534f; /* Bootstrap's btn-danger color */
+}
+
+.yes-button:hover {
+  background-color: #c9302c;
+  transform: scale(1.1);
+}
+
+.no-button {
+  background-color: #555;
+}
+
+.no-button:hover {
+  background-color: #666;
+  transform: scale(1.1);
+}
+

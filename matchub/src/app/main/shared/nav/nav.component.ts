@@ -14,7 +14,7 @@ export class NavComponent implements OnInit{
   hubUserImg$: Observable<string> | undefined;
 
   ngOnInit(): void {
-    this.nickname$ = this.hubUserService.getNicknameHubUser();
+    this.nickname$ = this.hubUserService.getNickNameHubUser();
     this.hubUserImg$ = this.hubUserService.getImgHubUser();
   }
 

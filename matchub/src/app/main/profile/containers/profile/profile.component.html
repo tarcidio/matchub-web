@@ -3,68 +3,156 @@
   <div class="user-image">
     <img src="../../../../../assets/tarcidio.jpg" alt="User Image" />
   </div>
-  <app-info>
-    <span type-information>User Information</span>
-    <span descrition-information
-      >Update your username and full name as needed.</span
+
+  <div class="profile-container">
+    <div class="description">
+      <strong>User Information</strong>
+      <p>Update your username and full name as needed.</p>
+    </div>
+    <form
+      [formGroup]="formUserInformation"
+      (ngSubmit)="updateUserInformation()"
+      class="profile-form"
     >
-    <div class="form-group">
-      <label for="nickname">Nickname</label>
-      <input type="text" id="nickname" value="Jorel" />
+      <div class="form-group">
+        <label for="nickname">Nickname</label>
+        <input type="text" id="nickname" formControlName="nickName" />
+      </div>
+      <div class="button-save-changes-container">
+        <button type="submit" class="form-button">Salve Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="profile-container">
+    <div class="description">
+      <strong>Personal Information</strong>
+      <p>This information is private and will not be shared with others.</p>
     </div>
-    <div class="button-save-changes-container">
-      <button type="submit" class="form-button">Salve Changes</button>
-    </div>
-  </app-info>
-  <app-info>
-    <span type-information>Personal Information</span>
-    <span descrition-information
-      >This information is private and will not be shared with others.</span
+    <form
+      [formGroup]="formPersonalInformation"
+      (ngSubmit)="updatePersonalInformation()"
+      class="profile-form"
     >
-    <div class="form-group">
-      <label for="fullname">Full name</label>
-      <input type="text" id="fullname" value="Tarcidio Antonio Júnior" />
+      <div class="form-group">
+        <label for="firstname">First name</label>
+        <input type="text" id="firstname" formControlName="firstName" />
+      </div>
+      <div class="form-group">
+        <label for="lastname">Last name</label>
+        <input type="text" id="lastname" formControlName="lastName" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="{{ email$ | async }}"
+          formControlName="email"
+        />
+      </div>
+      <div class="button-save-changes-container">
+        <button type="submit" class="form-button">Salve Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="profile-container">
+    <div class="description">
+      <strong>Account Sign-In</strong>
+      <p>
+        We recommend that you periodically update your password to help prevent
+        unauthorized access to your account.
+      </p>
     </div>
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input
-        type="email"
-        id="email"
-        placeholder="tar**************@gmail.com"
-      />
-    </div>
-    <div class="button-save-changes-container">
-      <button type="submit" class="form-button">Salve Changes</button>
-    </div>
-  </app-info>
-  <app-info>
-    <span type-information>Account Sign-In</span>
-    <span descrition-information
-      >We recommend that you periodically update your password to help prevent
-      unauthorized access to your account.</span
+    <form
+      [formGroup]="formChangePassword"
+      (ngSubmit)="changePassword()"
+      class="profile-form"
     >
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" value="ta********24" />
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Password" />
-    </div>
-    <div class="form-group">
-      <label for="newpassword">New Password</label>
-      <input type="password" id="newpassword" placeholder="New Password" />
-    </div>
-    <div class="form-group">
-      <label for="confirm">Confirm New Password</label>
-      <input type="password" id="confirm" placeholder="Confirm Password" />
-    </div>
-    <div class="button-save-changes-container">
-      <button type="submit" class="form-button">Salve Changes</button>
-    </div>
-  </app-info>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <!-- <input type="text" id="username" value="ta********24" /> -->
+        <div class="pseudo-input">{{ username$ | async }}</div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          formControlName="oldPassword"
+        />
+      </div>
+      <div class="form-group">
+        <label for="newpassword">New Password</label>
+        <input
+          type="password"
+          id="newpassword"
+          placeholder="New Password"
+          formControlName="newPassword"
+        />
+      </div>
+      <div class="form-group">
+        <label for="confirm">Confirm New Password</label>
+        <input
+          type="password"
+          id="confirm"
+          placeholder="Confirm Password"
+          formControlName="confirmPassword"
+        />
+      </div>
+      <div class="button-save-changes-container">
+        <button type="submit" class="form-button">Salve Changes</button>
+      </div>
+    </form>
+  </div>
+
   <div class="button-quit-container">
-    <button>Quit</button>
+    <button (click)="activateModalExit()">Quit</button>
+  </div>
+
+  <!-- Modal de Atualização -->
+  <div
+    class="modal modal-update"
+    *ngIf="isModalUpdate"
+    (click)="disableModalUpdate()"
+  >
+    <div
+      class="modal-content modal-content-update"
+      (click)="$event.stopPropagation()"
+      (keydown.enter)="disableModalUpdate()"
+    >
+      <h2>{{ titleModal }}</h2>
+      <p>{{ messageModal }}</p>
+      <button
+        class="close-button close-button-update"
+        (click)="disableModalUpdate()"
+      >
+        Back
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Saída -->
+  <div
+    class="modal modal-exit"
+    *ngIf="isModalExit"
+    (click)="disableModalExit()"
+  >
+    <div
+      class="modal-content modal-content-exit"
+      (click)="$event.stopPropagation()"
+    >
+      <h2>Confirmation</h2>
+      <p>Do you really want to leave?</p>
+      <button class="exit-button yes-button" (click)="confirmExit()">
+        Yes
+      </button>
+      <button class="exit-button no-button" (click)="disableModalExit()">
+        No
+      </button>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>
