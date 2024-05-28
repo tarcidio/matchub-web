@@ -13,6 +13,7 @@ import { AuthResponse } from '../../../classes/auth/auth-response/auth-response'
 import { Login } from '../../../classes/auth/login/login';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Store } from '../../../classes/store/store';
 
 @Injectable({
   providedIn: 'root',
@@ -30,17 +31,26 @@ export class AuthService implements HttpInterceptor {
   // URL for user logout
   private readonly LOGOUT_URL = `${this.API_URL}auth/logout`;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private store: Store) {}
 
   /* LOGIN, LOGOUT AND TOKEN MANAGEMENT */
 
   // Check if the user is logged in by verifying the presence of an access token in local storage
   public isLoggin(): boolean {
-    return !!localStorage.getItem('accessToken');
+    /* 
+    typeof window !== 'undefined': assegura que o código está sendo executado 
+    em um ambiente onde o objeto `window` (um objeto global em navegadores) está disponível
+    window.localStorage: confirma que `localStorage` está disponível no objeto `window`
+    */
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return !!localStorage.getItem('accessToken');
+    }
+    return false; // Considerar não logado se localStorage não está disponível
   }
 
   // Log out the user by removing the access token from local storage and reloading the page
   private logoutActions(): void {
+    this.store.set('hubUser', null);
     localStorage.clear();
     // criar um modal e deixar ele por 1 segundo dizendo que precisa entrar e novo
     this.router.navigate(['auth/login']);
@@ -75,7 +85,6 @@ export class AuthService implements HttpInterceptor {
         })
         .pipe(
           map((authResponse) => this.saveToken(authResponse)),
-          tap(() => console.log(document.cookie)),
           catchError(this.handleError.bind(this, 'login'))
         )
     );

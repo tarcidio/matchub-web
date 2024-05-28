@@ -2,18 +2,21 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { CommentBase } from '../../../../classes/comment/comment-base/comment-base';
+import { CommentBase } from '../../../../classes/dto/comment/comment-base/comment-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';
 
 @Component({
   selector: 'app-user-comment',
   templateUrl: './user-comment.component.html',
   styleUrl: './user-comment.component.scss',
 })
-export class UserCommentComponent {
+export class UserCommentComponent implements OnInit {
   @Output()
   sendComment = new EventEmitter<CommentBase>();
 
@@ -22,11 +25,19 @@ export class UserCommentComponent {
 
   invalidComment : boolean = false;
 
+  hubUserImg$: Observable<string> | undefined;
+  private destroy$ = new Subject<void>();
+
   form: FormGroup = this.fb.group({
     commentText: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(280)]],
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private hubUserService: HubUserService,) {}
+  
+  ngOnInit(): void {
+    this.hubUserService.getLoggedHubUser().pipe(takeUntil(this.destroy$)).subscribe();
+    this.hubUserImg$ = this.hubUserService.getImgLoggedHubUser();
+  }
 
   private resetForms() {
     this.form.reset({

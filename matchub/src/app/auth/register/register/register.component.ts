@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { SignUp } from '../../../classes/auth/signUp/sign-up';
 import { AuthService } from '../../shared/service/auth.service';
 import { Router } from '@angular/router';
+import { HubUserService } from '../../../main/shared/services/hub-user/hub-user.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private hubUserService: HubUserService
   ) {}
 
   private errorMessage: string = '';

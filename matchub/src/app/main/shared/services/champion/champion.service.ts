@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
+import { ChampionDetails } from '../../../../classes/dto/champion/champion-details/champion-details';
 import { Store } from '../../../../classes/store/store';
 
 @Injectable({
@@ -14,10 +14,12 @@ export class ChampionService {
   // URL for get champions
   private readonly GET_CHAMPIONS_URL = `${this.API_URL}champions`;
 
-  private headers: HttpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
-  });
+  get headers(){
+    return new HttpHeaders({
+      'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
+    });
+  }
 
   constructor(private http: HttpClient, private store: Store) {
     this.initChampions(); // Loads initial champion data when the service is instantiated

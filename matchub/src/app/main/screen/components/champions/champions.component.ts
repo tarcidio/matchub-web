@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ChampionService } from '../../../shared/services/champion/champion.service';
-import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
+import { ChampionDetails } from '../../../../classes/dto/champion/champion-details/champion-details';
 
 @Component({
   selector: 'app-champions',
@@ -43,7 +43,6 @@ export class ChampionsComponent {
 
   // Handle errors by logging and navigating home
   private handleError(error: any): Observable<never> {
-    console.log('ainda esta entrnado aqui');
     this.invalidChampionsNames.emit();
     // It's necessary for the pipe to continue returning an observable. So we send an observable that does nothing
     return EMPTY;

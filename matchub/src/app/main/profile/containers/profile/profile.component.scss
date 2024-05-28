@@ -7,11 +7,6 @@
   padding-bottom: 3vh;
 }
 
-.user-image {
-  display: flex;
-  justify-content: center;
-}
-
 .user-image img {
   border-radius: 50%;
   width: 200px;
@@ -152,6 +147,8 @@ input,
   display: flex;
   align-items: center;
   justify-content: center;
+
+  font-family: "Merriweather", serif;
 }
 
 .modal-content {
@@ -240,3 +237,106 @@ input,
   transform: scale(1.1);
 }
 
+// Modal de upload
+
+/* Estilos específicos para o Modal de Upload */
+.modal-upload .modal-content-upload {
+  background-color: #222; /* Cor de fundo clara */
+  border: 1px solid #555;
+  width: 30%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.upload-button,
+.close-button {
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+  margin: 10px;
+  width: 30%;
+}
+
+.upload-button {
+  background-color: #28a745; /* Cor verde para ação positiva */
+}
+
+.upload-button:hover {
+  background-color: #218838;
+  transform: scale(1.1);
+}
+
+.close-button {
+  background-color: #6c757d; /* Cor cinza para cancelar */
+}
+
+.close-button:hover {
+  background-color: #5a6268;
+  transform: scale(1.1);
+}
+
+.custom-file-upload {
+  padding: 10px 12px;
+  cursor: pointer;
+  background-color: #555;
+  margin-top: 10px;
+  width: 59%;
+  display: block; /* Define o elemento como um bloco */
+  margin-left: auto; /* Margem automática à esquerda */
+  margin-right: auto; /* Margem automática à direita */
+  border-radius: 5px;
+  text-align: center;
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+}
+
+.custom-file-upload:hover {
+  background-color: #222;
+}
+
+// IMG
+
+.user-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.user-image img {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  //background-color: #fff;
+  object-fit: cover;
+  border: 1.8px solid #000000;
+}
+
+.overlay {
+  position: absolute;
+  width: 201.8px;
+  height: 201.8px;
+  background: url("../../../../../assets/camera.png") center center no-repeat,
+    rgba(255, 255, 255, 0.6);
+  background-size: 50%; /* Ajuste o tamanho da imagem da câmera conforme necessário */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50%;
+}
+
+.overlay:hover {
+  opacity: 1;
+}
+
+.fa-camera {
+  font-size: 24px;
+}

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { CommentDetails } from '../../../../classes/comment/comment-details/comment-details';
-import { EvaluationBase } from '../../../../classes/evaluation/evaluation-base/evaluation-base';
-import { EvaluationLinks } from '../../../../classes/evaluation/evaluation-links/evaluation-links';
+import { CommentDetails } from '../../../../classes/dto/comment/comment-details/comment-details';
+import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
 import { EvaluationLevel } from '../../../../classes/enums/evaluation-level/evaluation-level';
 
 @Component({
@@ -21,14 +20,11 @@ export class CommentsComponent {
   idEvaluationLoggedHubUser: number | undefined;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.comments);
-
     this.comments?.sort(
       (commentA, commentB) =>
         this.calculatePoints(commentB.evaluations) -
         this.calculatePoints(commentA.evaluations)
     );
-    console.log(this.comments);
   }
 
   private calculatePoints(evaluations: EvaluationLinks[]): number {

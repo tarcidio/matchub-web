@@ -1,4 +1,4 @@
-import { Region } from "../../enums/region/region";
+import { Region } from "../../../enums/region/region";
 
 export class HubUserBase {
   constructor(

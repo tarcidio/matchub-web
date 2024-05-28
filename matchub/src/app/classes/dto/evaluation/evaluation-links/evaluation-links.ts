@@ -1,4 +1,4 @@
-import { EvaluationLevel } from '../../enums/evaluation-level/evaluation-level';
+import { EvaluationLevel } from '../../../enums/evaluation-level/evaluation-level';
 import { EvaluationBase } from '../evaluation-base/evaluation-base';
 
 export class EvaluationLinks extends EvaluationBase {

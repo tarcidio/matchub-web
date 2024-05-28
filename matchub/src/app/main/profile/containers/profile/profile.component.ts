@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { HubUserDetails } from '../../../../classes/hub-user/hub-user-details/hub-user-details';
-import { Observable, map, switchMap, take } from 'rxjs';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { HubUserDetails } from '../../../../classes/dto/hub-user/hub-user-details/hub-user-details';
+import { Observable, Subject, map, of, switchMap, take, takeUntil } from 'rxjs';
 import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../auth/shared/service/auth.service';
-import { HubUserBase } from '../../../../classes/hub-user/hub-user-base/hub-user-base';
+import { HubUserBase } from '../../../../classes/dto/hub-user/hub-user-base/hub-user-base';
 import { ChangePassword } from '../../../../classes/auth/change-password/change-password';
 
 @Component({
@@ -12,15 +12,28 @@ import { ChangePassword } from '../../../../classes/auth/change-password/change-
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
+  
   constructor(
     private hubUserService: HubUserService,
     private authService: AuthService,
     private fb: FormBuilder
   ) {}
 
+  hubUserImg$: Observable<string> | undefined;
+
   ngOnInit(): void {
+    this.hubUserService.getLoggedHubUser().pipe(takeUntil(this.destroy$)).subscribe();
     this.loadInitialData();
+    this.hubUserImg$ = this.hubUserService.getImgLoggedHubUser();
+  }
+
+  ngOnDestroy(): void {
+    // Complete the destroy$ subject to clean up the subscriptions
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private loadInitialData() {
@@ -282,5 +295,83 @@ export class ProfileComponent implements OnInit {
 
   public disableModalExit(): void {
     this.isModalExit = false;
+  }
+
+  // Uplado img
+
+  previewImgSrc: string | ArrayBuffer | null = null;
+  imgSrc: File | undefined;
+
+  hover: boolean = false;
+  isModalUpload: boolean = false;
+  isErrorType: boolean = false;
+
+  public activateModalUpload(): void {
+    this.isModalUpload = true;
+    this.previewImgSrc = null;
+    this.imgSrc = undefined;
+  }
+
+  public disableModalUpload(): void {
+    this.isModalUpload = false;
+    this.previewImgSrc = null;
+    this.imgSrc = undefined;
+  }
+
+  public handleFileInput(event: Event): void {
+    /* `event.target.files`:
+    event.target: HTML element that triggered the event (in this case it is an `<input type="file">`).
+    event.target.files: `files` property is a list of files selected by the user
+    */
+    const inputElement = event.target as HTMLInputElement;
+    let files = inputElement.files;
+
+    // If `files` exists and its quantity is greater than zero, it means that at least one file was selected.
+    if (files && files.length > 0) {
+      // Only the first file is being manipulated, even though the user can select multiple files.
+      const file = files[0];
+      this.imgSrc = file;
+
+      if (!file.name.endsWith('.jpg')) {
+        this.isErrorType = true;
+        this.previewImgSrc = null;
+        this.imgSrc = undefined;
+      } else {
+        /*
+        `FileReader` is a JavaScript API that allows web applications to read files 
+        (or buffered information) stored on the client asynchronously
+        */
+        const reader = new FileReader();
+
+        /*
+        reader.onload: defines a function that will be executed when `FileReader` finishes reading the file
+        e: event that contains the reading results e.target.result: data from the read file
+        */
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          this.previewImgSrc = e.target!.result;
+        };
+
+        //reader.readAsDataURL: method reads the contents of the `file` and converts it to a data URL (base64)
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  public uploadImg() {
+    if (this.imgSrc && this.imgSrc instanceof File) {
+      this.hubUserService.upload(this.imgSrc).subscribe({
+        next: () => {
+          this.disableModalUpload();
+          this.activateModalUpdate();
+        },
+        error: (err) => {
+          this.disableModalUpload();
+          this.activateModalUpdate('fail', err.message);
+        },
+      });
+    } else {
+      this.disableModalUpload();
+      this.activateModalUpdate('fail', 'No image found');
+    }
   }
 }

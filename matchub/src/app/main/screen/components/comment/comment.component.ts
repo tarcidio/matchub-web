@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { CommentDetails } from '../../../../classes/comment/comment-details/comment-details';
-import { EvaluationBase } from '../../../../classes/evaluation/evaluation-base/evaluation-base';
+import { CommentDetails } from '../../../../classes/dto/comment/comment-details/comment-details';
+import { EvaluationBase } from '../../../../classes/dto/evaluation/evaluation-base/evaluation-base';
 import { EvaluationLevel } from '../../../../classes/enums/evaluation-level/evaluation-level';
 import { EvaluationService } from '../../../shared/services/evaluation/evaluation.service';
 import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';
-import { EvaluationLinks } from '../../../../classes/evaluation/evaluation-links/evaluation-links';
+import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
 
 @Component({
   selector: 'app-comment',
@@ -19,8 +19,6 @@ export class CommentComponent implements OnInit {
   hasLiked: boolean = false;
   hasUnliked: boolean = false;
 
-  // ARRUAMR AQUI: NAO PRECISO PASSAR COMO PARAMETRO E SEMPRE QUE ADICIONAR UM
-  // EVALTUAITON ADICIONAR NA LISTA DE EVALUATION DOS COMMENTS
   numLikes: number = 0;
   numUnlikes: number = 0;
 
@@ -165,6 +163,10 @@ export class CommentComponent implements OnInit {
           this.cdr.markForCheck();
         },
       });
+  }
+
+  get hubUserImg(): string{
+    return this.hubUserService.getImgHubUser(this.comment?.hubUser.email!);
   }
 
   // FAZER UPDATE E DELETE NO VETOR DE EVALUATIONS AQUI

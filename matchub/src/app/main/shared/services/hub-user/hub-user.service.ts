@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, map, of, switchMap, take, tap } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  combineLatest,
+  map,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { Store } from '../../../../classes/store/store';
-import { HubUserDetails } from '../../../../classes/hub-user/hub-user-details/hub-user-details';
+import { HubUserDetails } from '../../../../classes/dto/hub-user/hub-user-details/hub-user-details';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HubUserBase } from '../../../../classes/hub-user/hub-user-base/hub-user-base';
-import { HubUserLinks } from '../../../../classes/hub-user/hub-user-links/hub-user-links';
+import { HubUserBase } from '../../../../classes/dto/hub-user/hub-user-base/hub-user-base';
+import { HubUserLinks } from '../../../../classes/dto/hub-user/hub-user-links/hub-user-links';
 import { ChangePassword } from '../../../../classes/auth/change-password/change-password';
+import { HubUserImage } from '../../../../classes/dto/hub-user/hub-user-image/hub-user-image';
 
 @Injectable({
   providedIn: 'root',
@@ -17,23 +27,54 @@ export class HubUserService {
   private readonly GET_LOGGED_URL = `${this.API_URL}hubusers`;
   private readonly UPDATE_LOGGED_URL = `${this.API_URL}hubusers`;
   private readonly CHANGE_PASSWORD_LOGGED_URL = `${this.API_URL}hubusers`;
+  private readonly UPLOAD_IMAGE_LOGGED_URL = `${this.API_URL}hubusers`;
 
-  private headers: HttpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
-  });
-
-  constructor(private http: HttpClient, private store: Store) {
-    this.initUser(); // Initialize user data on service instantiation
+  get headers() {
+    return new HttpHeaders({
+      'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
+    });
   }
 
-  // Method to initialize user data
-  private initUser(): void {
-    this.http
-      .get<HubUserDetails>(this.GET_LOGGED_URL, {
-        headers: this.headers,
-      })
-      .subscribe({ next: (hubUser) => this.store.set('hubUser', hubUser) }); // Subscribes to the observable to trigger the HTTP request
+  constructor(private http: HttpClient, private store: Store) {}
+
+  getLoggedHubUser(): Observable<HubUserDetails> {
+    return this.http
+      .get<HubUserDetails>(this.GET_LOGGED_URL, { headers: this.headers })
+      .pipe(tap((hubUser) => this.store.set('hubUser', hubUser)));
+  }
+
+  /* UPLOAD IMAGE */
+
+  public upload(file: File): Observable<HubUserImage> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const headerImage = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
+    });
+
+    return this.http.post<HubUserImage>(
+      this.UPLOAD_IMAGE_LOGGED_URL,
+      formData,
+      {
+        headers: headerImage,
+      }
+    );
+  }
+
+  // Public method to get the user's image URL
+  public getImgLoggedHubUser(): Observable<string> {
+    return this.getEmailHubUser().pipe(
+      map((email) => this.getImgHubUser(email))
+    );
+  }
+
+  public getImgHubUser(email: string): string {
+    return `https://hub-user-images.s3.sa-east-1.amazonaws.com/${email.replace(
+      /@/g,
+      '_'
+    )}.jpg`;
   }
 
   /* GET ATTRIBUTES FROM LOGGED HUB USER */
@@ -75,11 +116,6 @@ export class HubUserService {
     return this.store
       .select<HubUserDetails>('hubUser')
       .pipe(map((hubUser) => (hubUser && hubUser.username) || 'Username'));
-  }
-
-  // Public method to get the user's image URL
-  public getImgHubUser(): Observable<string> {
-    return of('../../../../../assets/defaultHubUser.jpg');
   }
 
   public getHubUserId() {

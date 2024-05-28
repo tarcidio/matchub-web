@@ -1,5 +1,5 @@
 import { CommentLinks } from '../../comment/comment-links/comment-links';
-import { EvaluationLevel } from '../../enums/evaluation-level/evaluation-level';
+import { EvaluationLevel } from '../../../enums/evaluation-level/evaluation-level';
 import { HubUserLinks } from '../../hub-user/hub-user-links/hub-user-links';
 import { EvaluationBase } from '../evaluation-base/evaluation-base';
 

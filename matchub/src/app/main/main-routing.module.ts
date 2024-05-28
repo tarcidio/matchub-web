@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '../auth/shared/guard/auth.guard';
+import { mainGuard } from '../auth/shared/guard/main/main.guard';
 
 const routes: Routes = [
   {
     path: 'main',
-    canActivate: [authGuard],
+    canActivate: [mainGuard],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'home' },
       // If we wanted to avoid lazy loading, remove loadChildren and directly import the container
@@ -13,19 +13,19 @@ const routes: Routes = [
       {
         path: 'home',
         // Ensures that navigation between screens continues to respect the guard
-        canActivate: [authGuard],
+        canActivate: [mainGuard],
         loadChildren: () =>
           import('./home/home.module').then((m) => m.HomeModule),
       },
       {
         path: 'screen',
-        canActivate: [authGuard],
+        canActivate: [mainGuard],
         loadChildren: () =>
           import('./screen/screen.module').then((m) => m.ScreenModule),
       },
       {
         path: 'profile',
-        canActivate: [authGuard],
+        canActivate: [mainGuard],
         loadChildren: () =>
           import('./profile/profile.module').then((m) => m.ProfileModule),
       },

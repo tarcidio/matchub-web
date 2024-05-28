@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
-import { ScreenDetails } from '../../../../classes/screen/screen-details/screen-details';
+import { ScreenDetails } from '../../../../classes/dto/screen/screen-details/screen-details';
 
 @Injectable({
   providedIn: 'root'

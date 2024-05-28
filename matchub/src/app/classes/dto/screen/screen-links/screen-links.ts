@@ -1,4 +1,4 @@
-import { Known } from '../../enums/known/known';
+import { Known } from '../../../enums/known/known';
 import { ScreenBase } from '../screen-base/screen-base';
 
 export class ScreenLinks extends ScreenBase {

@@ -1,7 +1,16 @@
 <app-nav></app-nav>
 <div class="container">
-  <div class="user-image">
+  <!-- <div class="user-image">
     <img src="../../../../../assets/tarcidio.jpg" alt="User Image" />
+  </div> -->
+
+  <div
+    class="user-image"
+    (mouseover)="hover = true"
+    (mouseleave)="hover = false"
+  >
+    <img [src]="hubUserImg$ | async" alt="Hub User Image" />
+    <div class="overlay" *ngIf="hover" (click)="activateModalUpload()"></div>
   </div>
 
   <div class="profile-container">
@@ -151,6 +160,46 @@
       </button>
       <button class="exit-button no-button" (click)="disableModalExit()">
         No
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Upload de Imagem -->
+  <div
+    class="modal modal-upload"
+    *ngIf="isModalUpload"
+    (click)="disableModalUpload()"
+  >
+    <div
+      class="modal-content modal-content-upload"
+      (click)="$event.stopPropagation()"
+    >
+      <h2>Upload Image</h2>
+      <div *ngIf="previewImgSrc">
+        <img
+          [src]="previewImgSrc"
+          alt="Image Preview"
+          style="border-radius: 50%; width: 200px; height: 200px"
+        />
+      </div>
+      <input
+        type="file"
+        id="imageUpload"
+        (change)="handleFileInput($event)"
+        accept=".jpg"
+        hidden
+      />
+      <label for="imageUpload" class="custom-file-upload"> Choose file </label>
+      <div *ngIf="isErrorType">Please, enter .jpg file</div>
+      <button
+        class="upload-button"
+        (click)="uploadImg()"
+        [disabled]="!imgSrc"
+      >
+        Upload
+      </button>
+      <button class="close-button" (click)="disableModalUpload()">
+        Cancelar
       </button>
     </div>
   </div>

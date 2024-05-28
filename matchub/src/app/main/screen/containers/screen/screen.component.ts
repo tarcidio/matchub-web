@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ChampionDetails } from '../../../../classes/champion/champion-details/champion-details';
+import { ChampionDetails } from '../../../../classes/dto/champion/champion-details/champion-details';
 import {
   EMPTY,
   Observable,
@@ -9,14 +9,13 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import { ScreenDetails } from '../../../../classes/screen/screen-details/screen-details';
+import { ScreenDetails } from '../../../../classes/dto/screen/screen-details/screen-details';
 import { ChampionService } from '../../../shared/services/champion/champion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScreenService } from '../../../shared/services/screen/screen.service';
-import { CommentBase } from '../../../../classes/comment/comment-base/comment-base';
+import { CommentBase } from '../../../../classes/dto/comment/comment-base/comment-base';
 import { CommentService } from '../../../shared/services/comment/comment.service';
-import { CommentDetails } from '../../../../classes/comment/comment-details/comment-details';
-import { CommentLinks } from '../../../../classes/comment/comment-links/comment-links';
+import { CommentDetails } from '../../../../classes/dto/comment/comment-details/comment-details';
 
 @Component({
   selector: 'app-screen',

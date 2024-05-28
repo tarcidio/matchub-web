@@ -1,7 +1,7 @@
 import { HubUserBase } from '../hub-user-base/hub-user-base';
-import { Region } from '../../enums/region/region';
-import { Role } from '../../enums/role/role';
-import { Hability } from '../../enums/hability/hability';
+import { Region } from '../../../enums/region/region';
+import { Role } from '../../../enums/role/role';
+import { Hability } from '../../../enums/hability/hability';
 
 export class HubUserLinks extends HubUserBase {
   constructor(

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EvaluationBase } from '../../../../classes/evaluation/evaluation-base/evaluation-base';
+import { EvaluationBase } from '../../../../classes/dto/evaluation/evaluation-base/evaluation-base';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EvaluationLinks } from '../../../../classes/evaluation/evaluation-links/evaluation-links';
+import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,10 +13,12 @@ export class EvaluationService {
   // URL for get champions
   private readonly EVALUATION_URL = `/evaluations`;
 
-  private headers: HttpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
-    Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
-  });
+  get headers(){
+    return new HttpHeaders({
+      'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Retrieves the access token from local storage for authorization.
+    });
+  }
 
   constructor(private http: HttpClient) {}
 
