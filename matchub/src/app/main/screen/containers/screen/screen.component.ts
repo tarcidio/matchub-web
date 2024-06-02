@@ -5,7 +5,6 @@ import {
   Observable,
   Subject,
   combineLatest,
-  map,
   switchMap,
   takeUntil,
 } from 'rxjs';
@@ -131,7 +130,7 @@ export class ScreenComponent implements OnInit {
 
   // Navigate to the home route
   private goHome(): void {
-    this.router.navigate(['/main/home']);
+    this.router.navigate(['main/home']);
   }
 
   public updateScreen(event: {

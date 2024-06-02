@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="auth-form">
+    <h2>Reset password</h2>
+
+    <form form-content [formGroup]="form" (ngSubmit)="changePassword()">
+      <div class="form-input">
+        <label for="password">New Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="New Password"
+          formControlName="password"
+        />
+      </div>
+      <div class="error" *ngIf="passwordInvalid">
+        Password must include uppercase, lowercase, number, special
+        character, and be at least 8 characters long.
+      </div>
+      <div class="form-input">
+        <label for="confirm">Confirm Password</label>
+        <input
+          type="password"
+          id="confirm"
+          name="confirm"
+          placeholder="Confirm Password"
+          formControlName="confirmPassword"
+        />
+      </div>
+      <div class="error" *ngIf="confirmPasswordInvalid">
+        Password confirmation does not match the password.
+      </div>
+
+      <button type="submit" class="login-button">→</button>
+    </form>
+    <app-modal-update #modal></app-modal-update>
+    <div class="error" *ngIf="error != ''">
+      {{ error }}
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

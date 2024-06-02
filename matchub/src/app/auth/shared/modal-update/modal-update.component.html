@@ -1,0 +1,21 @@
+ <!-- Modal de Atualização -->
+ <div
+ class="modal modal-update"
+ *ngIf="isModalUpdate"
+ (click)="disableModalUpdate()"
+>
+ <div
+   class="modal-content modal-content-update"
+   (click)="$event.stopPropagation()"
+   (keydown.enter)="disableModalUpdate()"
+ >
+   <h2>{{ titleModal }}</h2>
+   <p>{{ messageModal }}</p>
+   <button
+     class="close-button close-button-update"
+     (click)="disableModalUpdate()"
+   >
+     {{buttonName}}
+   </button>
+ </div>
+</div>

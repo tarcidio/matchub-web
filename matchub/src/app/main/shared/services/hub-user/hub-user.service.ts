@@ -3,6 +3,7 @@ import {
   Observable,
   Subscription,
   combineLatest,
+  iif,
   map,
   of,
   switchMap,
@@ -16,6 +17,7 @@ import { HubUserBase } from '../../../../classes/dto/hub-user/hub-user-base/hub-
 import { HubUserLinks } from '../../../../classes/dto/hub-user/hub-user-links/hub-user-links';
 import { ChangePassword } from '../../../../classes/auth/change-password/change-password';
 import { HubUserImage } from '../../../../classes/dto/hub-user/hub-user-image/hub-user-image';
+import { ResetPassword } from '../../../../classes/auth/reset-password/reset-password';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +30,8 @@ export class HubUserService {
   private readonly UPDATE_LOGGED_URL = `${this.API_URL}hubusers`;
   private readonly CHANGE_PASSWORD_LOGGED_URL = `${this.API_URL}hubusers`;
   private readonly UPLOAD_IMAGE_LOGGED_URL = `${this.API_URL}hubusers`;
+  // URL for reset password
+  private readonly RESET_PASSWORD_URL = `${this.API_URL}hubusers/reset-password`;
 
   get headers() {
     return new HttpHeaders({
@@ -38,10 +42,24 @@ export class HubUserService {
 
   constructor(private http: HttpClient, private store: Store) {}
 
+  // getLoggedHubUser(): Observable<HubUserDetails> {
+  //   return this.http
+  //     .get<HubUserDetails>(this.GET_LOGGED_URL, { headers: this.headers })
+  //     .pipe(tap((hubUser) => this.store.set('hubUser', hubUser)));
+  // }
+
   getLoggedHubUser(): Observable<HubUserDetails> {
-    return this.http
-      .get<HubUserDetails>(this.GET_LOGGED_URL, { headers: this.headers })
-      .pipe(tap((hubUser) => this.store.set('hubUser', hubUser)));
+    return this.getHubUser().pipe(
+      switchMap((hubUser) =>
+        iif(
+          () => !hubUser,
+          this.http
+            .get<HubUserDetails>(this.GET_LOGGED_URL, { headers: this.headers })
+            .pipe(tap((newHubUser) => this.store.set('hubUser', newHubUser))),
+          of(hubUser)
+        )
+      )
+    );
   }
 
   /* UPLOAD IMAGE */
@@ -156,5 +174,16 @@ export class HubUserService {
         headers: this.headers,
       }
     );
+  }
+
+  // Reset password
+  public resetPassword(reset: ResetPassword, token: string): Observable<void> {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
+      Authorization: `Bearer ${token}`, // Retrieves the access token from parameter
+    });
+    return this.http.patch<void>(this.RESET_PASSWORD_URL, reset, {
+      headers: header,
+    });
   }
 }

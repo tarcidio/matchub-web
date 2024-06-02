@@ -1,0 +1,28 @@
+<div class="forgot-password-container">
+  <div class="forgot-password-form">
+    <h2>Forgot Password</h2>
+
+    <form form-content [formGroup]="form" (ngSubmit)="forgotPassword()">
+      <div class="form-input">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Enter your account email"
+          formControlName="email"
+        />
+      </div>
+      <div class="error" *ngIf="emailInvalid">
+        Please enter a valid email address.
+      </div>
+
+      <button type="submit" class="submit-button">→</button>
+    </form>
+    <app-modal-update #modal></app-modal-update>
+    <div class="error" *ngIf="error != ''">
+      {{ error }}
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

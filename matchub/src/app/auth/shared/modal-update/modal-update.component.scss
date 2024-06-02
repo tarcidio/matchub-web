@@ -1,0 +1,76 @@
+// MODAL
+
+/* Estilos comuns para ambos os modais */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Merriweather", serif;
+}
+
+.modal-content {
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #333; /* Cor de fundo mais escura para melhor contraste */
+    color: #fff; /* Texto branco para melhor legibilidade */
+    animation: modalFadeIn 0.3s;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Sombra mais pronunciada */
+}
+
+/* Animação de entrada */
+@keyframes modalFadeIn {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-button {
+    padding: 12px 24px;
+    background-color: #444; /* Cor de fundo do botão */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: "Merriweather", serif;
+    font-weight: bold;
+    margin-top: 20px; /* Espaçamento acima do botão */
+}
+
+.close-button:hover, .close-button:focus {
+    background-color: #555; /* Cor de hover */
+    transform: scale(1.1); /* Efeito de transformação ao passar o mouse */
+}
+
+/* Estilos específicos para o Modal de Atualização */
+.modal-update .modal-content-update {
+  background-color: #222;
+  border: 1px solid #555;
+  width: 30%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-update .close-button-update {
+  background-color: #444;
+}
+
+.modal-update .close-button-update:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}

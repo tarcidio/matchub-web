@@ -1,0 +1,72 @@
+/* Aplica a imagem de fundo ao corpo da página */
+.container {
+    background-image: url('../../../../../assets/auth/confirm.jpeg'); /* Ajuste o caminho conforme necessário */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.email-verification-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Aumenta a transparência para melhor integração */
+    width: 500px;
+    padding: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Torna a sombra mais suave e mais extensa */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    border-radius: 10px; /* Adiciona bordas arredondadas */
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    //text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Adiciona sombra ao texto para melhor legibilidade */
+}
+
+p {
+    font-size: 16px;
+    color: #666;
+    //text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Adiciona sombra ao texto para melhor legibilidade */
+}
+
+.code-inputs {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.code-inputs input {
+    width: 40px;
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5); /* Adiciona transparência aos campos de entrada */
+}
+
+.email-actions button {
+    background-color: #D4AF37;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Adiciona sombra aos botões */
+}
+
+.email-actions button:hover {
+    background-color: #b9952c;
+}
+
+.small-text {
+    font-size: 14px;
+    color: #333;
+    // text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Adiciona sombra ao texto para melhor legibilidade */
+}

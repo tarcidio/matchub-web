@@ -1,0 +1,83 @@
+.forgot-password-container {
+  font-family: Arial, sans-serif;
+  background-image: url('../../../../assets/auth/forgot.png');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: "Merriweather", serif;
+}
+
+.forgot-password-form {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  width: 20%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+h1 {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: #333;
+  margin-top: 0;
+}
+
+h3 {
+  color: #666;
+  font-family: "Merriweather", serif;
+}
+
+.form-input {
+  margin-bottom: 10px;
+  font-family: "Merriweather", serif;
+}
+
+.form-input label {
+  font-size: 2vh;
+  font-family: "Merriweather", serif;
+}
+
+input, .submit-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 2.3vh;
+  font-family: "Merriweather", serif;
+}
+
+.submit-button {
+  background-color: #555;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #666;
+}
+
+.error {
+  color: #a94442;
+  background: #f2dede;
+  border: 1px solid #e4b3b3;
+  border-radius: 2px;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 10px;
+}

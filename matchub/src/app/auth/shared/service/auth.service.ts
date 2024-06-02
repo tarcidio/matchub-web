@@ -14,6 +14,8 @@ import { Login } from '../../../classes/auth/login/login';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Store } from '../../../classes/store/store';
+import { ForgotPassword } from '../../../classes/auth/forgot-password/forgot-password';
+import { ResetPassword } from '../../../classes/auth/reset-password/reset-password';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +32,14 @@ export class AuthService implements HttpInterceptor {
   private readonly LOGIN_URL = `${this.API_URL}auth/authenticate`;
   // URL for user logout
   private readonly LOGOUT_URL = `${this.API_URL}auth/logout`;
+  // URL for forgot password
+  private readonly FORGOT_PASSWORD_URL = `${this.API_URL}auth/forgot-password`;
 
-  constructor(private http: HttpClient, private router: Router, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store
+  ) {}
 
   /* LOGIN, LOGOUT AND TOKEN MANAGEMENT */
 
@@ -50,10 +58,10 @@ export class AuthService implements HttpInterceptor {
 
   // Log out the user by removing the access token from local storage and reloading the page
   private logoutActions(): void {
+    this.router.navigate(['auth/login']);
     this.store.set('hubUser', null);
     localStorage.clear();
-    // criar um modal e deixar ele por 1 segundo dizendo que precisa entrar e novo
-    this.router.navigate(['auth/login']);
+    // criar um modal e deixar ele por 1 segundo dizendo que precisa entrar e nova
   }
 
   // Save the access token and nickname to local storage and store
@@ -100,6 +108,11 @@ export class AuthService implements HttpInterceptor {
       );
   }
 
+  // Forgot password
+  public forgotPassword(forgot: ForgotPassword): Observable<void> {
+    return this.http.post<void>(this.FORGOT_PASSWORD_URL, forgot);
+  }
+
   // Handle errors for login and registration
   private handleError(
     type: string,
@@ -143,7 +156,8 @@ export class AuthService implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return request.url === this.REFRESH_TOKEN_URL
+    return request.url === this.REFRESH_TOKEN_URL ||
+      request.url === this.FORGOT_PASSWORD_URL
       ? next.handle(request)
       : next.handle(request).pipe(
           catchError((error) => {
@@ -168,7 +182,9 @@ export class AuthService implements HttpInterceptor {
           this.isRefreshing = false;
           this.saveToken(authResponse);
           this.refreshTokenSubject.next(authResponse.accessToken); // Atualiza com o novo token
-          return next.handle(this.addTokenHeader(request, authResponse.accessToken));
+          return next.handle(
+            this.addTokenHeader(request, authResponse.accessToken)
+          );
         }),
         catchError((err) => {
           this.isRefreshing = false;

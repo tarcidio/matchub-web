@@ -21,6 +21,28 @@ const routes: Routes = [
             (m) => m.RegisterModule
           ),
       },
+      {
+        path: 'forgot',
+        loadChildren: () =>
+          import('./forgot/forgot.module').then(
+            (m) => m.ForgotModule
+          ),
+      },
+      {
+        path: 'reset',
+        loadChildren: () =>
+          import('./reset/reset.module').then(
+            (m) => m.ResetModule
+          ),
+      },
+      {
+        path: 'confirm',
+        loadChildren: () =>
+          import('./confirm-email/confirm-email.module').then(
+            (m) => m.ConfirmEmailModule
+          ),
+      },
+      { path: '**', pathMatch: 'full', redirectTo: 'login' },
     ],
   },
 ];
