@@ -10,7 +10,7 @@
    (keydown.enter)="disableModalUpdate()"
  >
    <h2>{{ titleModal }}</h2>
-   <p>{{ messageModal }}</p>
+   <p [innerHTML]="formattedMessage"></p>
    <button
      class="close-button close-button-update"
      (click)="disableModalUpdate()"

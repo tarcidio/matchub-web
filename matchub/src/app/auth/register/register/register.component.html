@@ -131,8 +131,12 @@
         </div>
       </div>
 
-      <button type="submit" class="register-button">Register</button>
+      <button type="submit" class="register-button" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Register</span>
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+      </button>
     </form>
+    <app-modal-update #modal></app-modal-update>
     <div class="error" *ngIf="error != ''">
       {{ error }}
     </div>

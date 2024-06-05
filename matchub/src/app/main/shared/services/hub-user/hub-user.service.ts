@@ -32,6 +32,8 @@ export class HubUserService {
   private readonly UPLOAD_IMAGE_LOGGED_URL = `${this.API_URL}hubusers`;
   // URL for reset password
   private readonly RESET_PASSWORD_URL = `${this.API_URL}hubusers/reset-password`;
+  // URL for confirm email
+  private readonly CONFIRM_EMAIL_URL = `${this.API_URL}hubusers/confirm`;
 
   get headers() {
     return new HttpHeaders({
@@ -183,6 +185,16 @@ export class HubUserService {
       Authorization: `Bearer ${token}`, // Retrieves the access token from parameter
     });
     return this.http.patch<void>(this.RESET_PASSWORD_URL, reset, {
+      headers: header,
+    });
+  }
+
+  public confirmEmail(token: string): Observable<void> {
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
+      Authorization: `Bearer ${token}`, // Retrieves the access token from parameter
+    });
+    return this.http.patch<void>(this.CONFIRM_EMAIL_URL, null, {
       headers: header,
     });
   }

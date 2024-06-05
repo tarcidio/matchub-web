@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignUp } from '../../../classes/auth/signUp/sign-up';
 import { AuthService } from '../../shared/service/auth.service';
 import { Router } from '@angular/router';
+import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
 
 @Component({
   selector: 'app-register',
@@ -11,13 +12,15 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  public isLoading: boolean = false;
+  private errorMessage: string = '';
+  @ViewChild(ModalUpdateComponent) modal: ModalUpdateComponent | undefined;
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) {}
-
-  private errorMessage: string = '';
 
   form = this.fb.group({
     email: ['', Validators.email],
@@ -105,6 +108,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.form.valid) {
+      this.isLoading = true;  // Inicia o carregamento
       const hubUser: SignUp = new SignUp(
         // It's need afirm that isn't null
         this.form.get('email')!.value!,
@@ -117,11 +121,32 @@ export class RegisterComponent {
 
       this.authService.registerUser(hubUser).subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          this.isLoading = false;  // Termina o carregamento
+          this.modal!.activateModalUpdate(
+            'Email Confirmation Required',
+            'Thank you for registering! \n\n' +
+              'We have sent a confirmation email to your registered address. ' +
+              'Please check your inbox to activate your account.\n\n' +
+              "If you don't receive the email shortly, check your spam or junk mail folder.\n\n" +
+              "It's important to confirm your email to access all account features. " +
+              'If you need help, please contact User Support.',
+            'auth/login',
+            'Back to login'
+          );
         },
         error: (err) => {
-          this.errorMessage =
-            err.message || 'An error occurred during registration.';
+          this.isLoading = false;  // Termina o carregamento
+          this.modal!.activateModalUpdate(
+            'Username or Email Already Registered',
+            'The email or username provided is already associated with an existing account.\n\n' + 
+            'If you think this is a mistake or if you have forgotten your password, ' + 
+            'try resetting it through our password recovery options. \n\n' + 
+            'If you do not remember creating an account or need further assistance, ' + 
+            'check your previous emails or contact User Support. \n\n' + 
+            'We appreciate your understanding and are here to help.',
+            'auth/login',
+            'Back to login'
+          );
         },
       });
     } else {

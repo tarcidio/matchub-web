@@ -34,6 +34,9 @@ export class AuthService implements HttpInterceptor {
   private readonly LOGOUT_URL = `${this.API_URL}auth/logout`;
   // URL for forgot password
   private readonly FORGOT_PASSWORD_URL = `${this.API_URL}auth/forgot-password`;
+  // URL for confirm email
+  private readonly CONFIRM_EMAIL_URL = `${this.API_URL}hubusers/confirm`;
+
 
   constructor(
     private http: HttpClient,
@@ -74,13 +77,9 @@ export class AuthService implements HttpInterceptor {
   // Register a new user
   public registerUser(hubUser: SignUp): Observable<void> {
     return this.http
-      .post<AuthResponse>(this.REGISTER_URL, hubUser, {
+      .post<void>(this.REGISTER_URL, hubUser, {
         withCredentials: true,
-      })
-      .pipe(
-        map((authResponse) => this.saveToken(authResponse)),
-        catchError(this.handleError.bind(this, 'register'))
-      );
+      });
   }
 
   // Log in an existing user
@@ -157,7 +156,8 @@ export class AuthService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return request.url === this.REFRESH_TOKEN_URL ||
-      request.url === this.FORGOT_PASSWORD_URL
+      request.url === this.FORGOT_PASSWORD_URL ||
+      request.url === this.CONFIRM_EMAIL_URL
       ? next.handle(request)
       : next.handle(request).pipe(
           catchError((error) => {

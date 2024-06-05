@@ -20,7 +20,7 @@
 .modal-content {
     padding: 30px;
     border-radius: 15px;
-    text-align: center;
+    text-align: justify;
     background-color: #333; /* Cor de fundo mais escura para melhor contraste */
     color: #fff; /* Texto branco para melhor legibilidade */
     animation: modalFadeIn 0.3s;
@@ -40,6 +40,10 @@
 }
 
 .close-button {
+    display: block; /* Torna o botão um bloco para permitir alinhamento */
+    margin: auto; /* Centraliza o botão horizontalmente */
+    width: fit-content; /* Ajusta a largura do botão ao seu conteúdo */
+
     padding: 12px 24px;
     background-color: #444; /* Cor de fundo do botão */
     color: #fff;

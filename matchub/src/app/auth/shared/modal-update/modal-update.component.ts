@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './modal-update.component.scss',
 })
 export class ModalUpdateComponent {
-  constructor(private router: Router){}
+  constructor(private router: Router, private sanitizer: DomSanitizer) {}
 
   isModalUpdate: boolean = false;
   titleModal: string | undefined;
@@ -26,6 +27,15 @@ export class ModalUpdateComponent {
     this.messageModal = message;
     this.urlBack = urlBack;
     this.buttonName = buttonName;
+  }
+
+  // SafeHtml: tipo de dado definido no Angular para indicar que um valor HTML é
+  // seguro para ser usado, ou seja, está livre de elementos maliciosos que poderiam causar ataques de Cross-Site Scripting (XSS)
+  // DomSanitizer: sanitiza o HTML para garantir que não haja conteúdo malicioso
+  get formattedMessage(): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(
+      this.messageModal?.replace(/\n/g, '<br>') || ''
+    );
   }
 
   public disableModalUpdate(): void {
