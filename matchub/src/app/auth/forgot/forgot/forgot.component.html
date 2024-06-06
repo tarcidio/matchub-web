@@ -17,7 +17,10 @@
         Please enter a valid email address.
       </div>
 
-      <button type="submit" class="submit-button">→</button>
+      <button type="submit" class="submit-button" [disabled]="isLoading">
+        <span *ngIf="!isLoading">→</span>
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+      </button>
     </form>
     <app-modal-update #modal></app-modal-update>
     <div class="error" *ngIf="error != ''">

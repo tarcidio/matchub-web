@@ -18,6 +18,8 @@ import { HubUserLinks } from '../../../../classes/dto/hub-user/hub-user-links/hu
 import { ChangePassword } from '../../../../classes/auth/change-password/change-password';
 import { HubUserImage } from '../../../../classes/dto/hub-user/hub-user-image/hub-user-image';
 import { ResetPassword } from '../../../../classes/auth/reset-password/reset-password';
+import { AuthService } from '../../../../auth/shared/service/auth.service';
+import { AuthResponse } from '../../../../classes/auth/auth-response/auth-response';
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +44,7 @@ export class HubUserService {
     });
   }
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient, private store: Store, private authService: AuthService) {}
 
   // getLoggedHubUser(): Observable<HubUserDetails> {
   //   return this.http
@@ -194,8 +196,10 @@ export class HubUserService {
       'Content-Type': 'application/json', // Sets content type as JSON for all HTTP requests.
       Authorization: `Bearer ${token}`, // Retrieves the access token from parameter
     });
-    return this.http.patch<void>(this.CONFIRM_EMAIL_URL, null, {
-      headers: header,
-    });
+    return this.http
+      .patch<void>(this.CONFIRM_EMAIL_URL, null, {
+        headers: header,
+      })
+      .pipe(tap(() => this.authService.saveToken(new AuthResponse(token))));
   }
 }

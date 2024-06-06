@@ -10,6 +10,7 @@ import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.com
   styleUrl: './forgot.component.scss',
 })
 export class ForgotComponent {
+  isLoading: boolean = false;
   private errorMessage: string = '';
   @ViewChild(ModalUpdateComponent) modal: ModalUpdateComponent | undefined;
 
@@ -30,6 +31,7 @@ export class ForgotComponent {
 
   public forgotPassword() {
     if (this.form.valid) {
+      this.isLoading = true;
       let hubUserEmail: string = this.form.get('email')?.value!;
       let messageModal: string =
         'If your email is linked to an existing account, we will send you a password' +
@@ -47,9 +49,11 @@ export class ForgotComponent {
         .forgotPassword(new ForgotPassword(hubUserEmail))
         .subscribe({
           next: () => {
+            this.isLoading = false;
             showModal();
           },
           error: (err) => {
+            this.isLoading = false;
             showModal();
           },
         });

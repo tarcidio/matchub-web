@@ -11,6 +11,7 @@ import { switchMap } from 'rxjs';
 export class ConfirmComponent implements OnInit {
   title: string | undefined;
   message: string | undefined;
+  token: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -77,6 +78,11 @@ BACKEND
 >> FAZENDO AGORA:
 >> Fazer script para limpar que não está checkado a cada 24 hroas
 >> FAzer script para limpar a tabela de tokens a cada 24 horas
+>> Adicionar cookies quando registrar 
+>> Não deixar fazer nada na aplicação se o email não tiver checado
+>> Deixcar apenas o token service chamar o jwt service
+
+>> Fazer requisição para revogar jwt para logout e checar email
 
 
 

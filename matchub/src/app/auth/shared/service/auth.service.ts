@@ -37,7 +37,6 @@ export class AuthService implements HttpInterceptor {
   // URL for confirm email
   private readonly CONFIRM_EMAIL_URL = `${this.API_URL}hubusers/confirm`;
 
-
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -68,18 +67,21 @@ export class AuthService implements HttpInterceptor {
   }
 
   // Save the access token and nickname to local storage and store
-  private saveToken(authResponse: AuthResponse): void {
-    localStorage.setItem('accessToken', authResponse.accessToken);
+  public saveToken(authResponse: AuthResponse): void {
+    this.saveStringToken(authResponse.accessToken);
+  }
+
+  private saveStringToken(token: string): void {
+    localStorage.setItem('accessToken', token);
   }
 
   /* LOGIN, SIGNUP AND LOGOUT MANAGEMENT */
 
   // Register a new user
   public registerUser(hubUser: SignUp): Observable<void> {
-    return this.http
-      .post<void>(this.REGISTER_URL, hubUser, {
-        withCredentials: true,
-      });
+    return this.http.post<void>(this.REGISTER_URL, hubUser, {
+      withCredentials: true,
+    });
   }
 
   // Log in an existing user
