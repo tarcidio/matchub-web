@@ -40,18 +40,14 @@ export class ConfirmComponent implements OnInit {
       });
   }
 }
+/*
+>> FAZENDO AGORA:
+1. FEITO: Não deixar fazer nada na aplicação se o email não tiver checado
+2. FEITO: Discutir na implementação, que preferiu usar o jwt como token para checagem
+3. FEITO: Fazer script para limpar que não está checkado a cada 24 hroas
+4. FEITO: Fazer script para limpar a tabela de tokens inválidos a cada 24 horas
+5. Deixcar apenas o token service chamar o jwt service
 
-/*
-1. Criar atributo no backend para HubUser se a conta está ou não confirmada
-2. Criar Classe para código e configurar uma tabela para ela
-3. Criar service para gerar código
-4. Alterar AuthService para cadastrar como não confirmado, não gerar token e enviar um email
-5. Criar rota para confirmar código enviado e atualizar o cadastro da pessoa, gerando token
-6. Gerar erro 409 ao logar caso o usuário tenha cadastro, mas não é confirmado 
-6. Alterar login para pedir para confirmar email caso ainda não tenha (erro 409)
-7. Gerar script para limpar a BD de não confirmados a cada 48 horas
-*/
-/*
 AMBOS
 1) Jogar o código no Boost e pedir para comentar ou sugestões de melhoria
 2) Dockerizar todo mundo e criar docker compose
@@ -74,16 +70,17 @@ BACKEND
 13) Melhorar a documentação do Swagger
 14) Corrigir os id para naturais (string se for caso)
 15) Granular os erros na BD para registro: usuario já existe? email? etc.
+16) Criptografar os cookies
+17) Criar verbose para para toda chamada para mapear rquisições
+18) Integração de fila sqs ()
+19) Verificar o que pode ficar dentro do token service (muita manipulação de jwt etc)
+20) Colocar coisas do properties no variavel ambiente
+21) Separar amazon service
 
->> FAZENDO AGORA:
->> Fazer script para limpar que não está checkado a cada 24 hroas
->> FAzer script para limpar a tabela de tokens a cada 24 horas
->> Adicionar cookies quando registrar 
->> Não deixar fazer nada na aplicação se o email não tiver checado
->> Deixcar apenas o token service chamar o jwt service
-
->> Fazer requisição para revogar jwt para logout e checar email
-
+22) Explicar como mexi na interface grafica da amazon para s3 e sqs
+23) Mesma coisa para API do Google
+24) Durante a elaboração da BD, checzar o que do back pode ser transformado em trigger.
+Ex: setar numGoodEvaluation quando inserir um evaluation (não fazer no back)
 
 
 FRONTEND
@@ -104,6 +101,9 @@ resetar senha
 12) Update de comentario
 13) Decidir o que fazer com fama
 
+14) No comentários, deixar o dono do comentário commo o primeiro mesmo que a curtida nao serja condizente
+15) Não deixar dar like no proprio comentario
+
 GIT
 1) Alterar a Licença de MIT para Apache
 2) Fazer Readme do back e do front
@@ -112,5 +112,24 @@ EXTRA)
 1) Ver como tá o código dos meninos para ver onde posso melhorar
 
 6h 
-2h
+
+
+>> AWS S3 e IAM
+ >> Problemas com Cache
+
+
+>> AWS SQS, Lambda, IAM e Secrets Manager
+>> IAM para o lambda acessar o Sqs e o segredo
+>> Layer (para google e de pois para urllskd colocar versao correta)
+  >> tem um formato correto python/info
+  >> colocar comando pip
+  >> tive que upar 4 versoes pra dar cerrto
+>> Formato do evento SQS
+ >> records alguam ocisa e depois pega
+>> Credenciais de serviço e nao de auth2.0 (segre tava errado e tive que criar outro na API do google)
+>> Não dá apra envair da conta  de serviç o poruqe precisaria de meial corporadtiov e um workspace da empresa
+>> tem que usar oauth2.0
+>> Diferença de serviço e auth2.0
+>> Colocar código python qque usei noi Lambda
+>> Explicar o problema do SQS que ficou enviando mensagem a cada 3 minutos por umas 5 hrs
 */

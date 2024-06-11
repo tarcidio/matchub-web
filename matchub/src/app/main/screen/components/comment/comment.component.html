@@ -1,10 +1,6 @@
 <div class="comment">
   <div class="user-info">
-    <img
-      src="{{hubUserImg}}"
-      alt="User Image"
-      class="user-image"
-    />
+    <img src="{{ hubUserImg }}" alt="User Image" class="user-image" />
     <div>
       <div class="username">{{ comment?.hubUser?.nickname }}</div>
       <div *ngIf="isConnectRSO; else notConnected" class="user-title">
@@ -16,36 +12,50 @@
     </div>
   </div>
   <p class="comment-text">{{ comment?.text }}</p>
-  <div class="comment-actions">
+  <div class="comment-actions" *ngIf="!isOwner">
     <button
       *ngIf="!hasLiked"
       (click)="manageLikeSystem('like', 'up')"
       class="like-unlike-button like-button"
     >
-      Like
+      <span *ngIf="!isUpdatingLike">Like</span>
+      <i *ngIf="isUpdatingLike" class="fas fa-spinner fa-spin"></i>
     </button>
     <button
       *ngIf="hasLiked"
       (click)="manageLikeSystem('like', 'down')"
       class="like-unlike-button like-button liked"
     >
-      Liked
+      <span *ngIf="!isUpdatingLike">Liked</span>
+      <i *ngIf="isUpdatingLike" class="fas fa-spinner fa-spin"></i>
     </button>
-    <span class="likes-unlikes-count">{{numLikes}}</span>
-    <span class="likes-unlikes-count">{{numUnlikes}}</span>
+    <span class="likes-unlikes-count">{{ comment?.numGoodEvaluation }}</span>
+    <span class="likes-unlikes-count">{{ comment?.numBadEvaluation }}</span>
     <button
       *ngIf="!hasUnliked"
       (click)="manageLikeSystem('unlike', 'up')"
       class="like-unlike-button unlike-button"
     >
-      Unlike
+      <span *ngIf="!isUpdatingUnLike">Unlike</span>
+      <i *ngIf="isUpdatingUnLike" class="fas fa-spinner fa-spin"></i>
     </button>
     <button
       *ngIf="hasUnliked"
       (click)="manageLikeSystem('unlike', 'down')"
       class="like-unlike-button unlike-button unliked"
     >
-      Unliked
+      <span *ngIf="!isUpdatingUnLike">Unliked</span>
+      <i *ngIf="isUpdatingUnLike" class="fas fa-spinner fa-spin"></i>
     </button>
+  </div>
+
+  <div class="comment-actions" *ngIf="isOwner">
+    <div class="like-unlike-div like-button liked">
+      Likes: {{ comment?.numGoodEvaluation }}
+    </div>
+
+    <div class="like-unlike-div unlike-button unliked">
+      Unlikes: {{ comment?.numBadEvaluation }}
+    </div>
   </div>
 </div>

@@ -22,22 +22,14 @@ export class CommentsComponent {
   public ngOnChanges(changes: SimpleChanges): void {
     this.comments?.sort(
       (commentA, commentB) =>
-        this.calculatePoints(commentB.evaluations) -
-        this.calculatePoints(commentA.evaluations)
+        this.calculatePoints(commentB) -
+        this.calculatePoints(commentA)
     );
   }
 
-  private calculatePoints(evaluations: EvaluationLinks[]): number {
-    let positive = 0;
-    let negative = 0;
-  
-    evaluations.forEach(evaluation => {
-      if (evaluation.level === EvaluationLevel.GOOD) {
-        positive += 1;
-      } else if (evaluation.level === EvaluationLevel.BAD) {
-        negative += 1;
-      }
-    });
+  private calculatePoints(comment: CommentDetails): number {
+    let positive = comment.numGoodEvaluation;
+    let negative = comment.numBadEvaluation;
   
     const total = positive + negative;
     if (total === 0) return 0; // Se não houver avaliações, retorna 0

@@ -1,3 +1,5 @@
+@import '@fortawesome/fontawesome-free/css/all.css';
+
 .comment {
   width: 100%;
   background: #f0f0f0;
@@ -44,11 +46,9 @@
   justify-content: space-between;
 }
 
-.like-unlike-button {
+.like-unlike-button, .like-unlike-div {
   border: none;
   padding: 5px 18%;
-  //margin-right: 10px;
-  cursor: pointer;
   font-size: 2.5vh;
   border-radius: 10px;
   font-family: "Merriweather", serif;
@@ -56,6 +56,10 @@
   background-color: #d6d6d6;
   color: #000000;
   font-weight: bold;
+}
+
+.like-unlike-button{
+  cursor: pointer;
 }
 
 .like-button {

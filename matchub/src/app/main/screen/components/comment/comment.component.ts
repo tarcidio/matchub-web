@@ -5,6 +5,7 @@ import { EvaluationLevel } from '../../../../classes/enums/evaluation-level/eval
 import { EvaluationService } from '../../../shared/services/evaluation/evaluation.service';
 import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';
 import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
+import { EMPTY, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-comment',
@@ -19,10 +20,10 @@ export class CommentComponent implements OnInit {
   hasLiked: boolean = false;
   hasUnliked: boolean = false;
 
-  numLikes: number = 0;
-  numUnlikes: number = 0;
+  isUpdatingLike: boolean = false;
+  isUpdatingUnLike: boolean = false;
 
-  isUpdating: boolean = false;
+  isOwner: boolean = true;
 
   constructor(
     private evaluationService: EvaluationService,
@@ -53,119 +54,141 @@ export class CommentComponent implements OnInit {
         }
       },
     });
-
-    if (this.comment?.evaluations) {
-      this.numLikes = this.comment.evaluations.filter(
-        (evaluation) => evaluation.level === EvaluationLevel.GOOD
-      ).length;
-      this.numUnlikes = this.comment.evaluations.length - this.numLikes;
-    }
   }
 
-  public manageLikeSystem(type: string, newValue: string): void {
+  private manageBottonLikeSystem(type: string): void {
+    if (type === 'like') this.isUpdatingLike = !this.isUpdatingLike;
+    else if (type === 'unlike') this.isUpdatingUnLike = !this.isUpdatingUnLike;
+  }
+
+  private manageUpdatingSystem(
+    type: string,
+    newValue: string
+  ): Observable<EvaluationLinks | void> {
     if (type === 'like' && newValue === 'up') {
       // Então this.hasLiked já era false
       this.hasLiked = true;
       if (this.hasUnliked) {
         // Já existe avaliação: fazer update
         this.hasUnliked = false;
-        this.updateEvaluation(new EvaluationBase(EvaluationLevel.GOOD));
+        return this.updateEvaluation(new EvaluationBase(EvaluationLevel.GOOD));
       } else {
         // Não existia avaliação: fazer create
-        this.createEvaluation(new EvaluationBase(EvaluationLevel.GOOD));
+        return this.createEvaluation(new EvaluationBase(EvaluationLevel.GOOD));
       }
     } else if (type === 'like' && newValue === 'down') {
       // Então this.hasLiked já era true
       this.hasLiked = false;
-      this.deleteEvaluation();
+      return this.deleteEvaluation();
     } else if (type === 'unlike' && newValue === 'up') {
       // Então this.hasUnliked já era false
       this.hasUnliked = true;
       if (this.hasLiked) {
         // Já existe avaliação: fazer update
         this.hasLiked = false;
-        this.updateEvaluation(new EvaluationBase(EvaluationLevel.BAD));
+        return this.updateEvaluation(new EvaluationBase(EvaluationLevel.BAD));
       } else {
         // Não existia avaliação: fazer create
-        this.createEvaluation(new EvaluationBase(EvaluationLevel.BAD));
+        return this.createEvaluation(new EvaluationBase(EvaluationLevel.BAD));
       }
     } else if (type === 'unlike' && newValue === 'down') {
       // Então this.hasUnliked já era true
       this.hasUnliked = false;
-      this.deleteEvaluation();
+      return this.deleteEvaluation();
+    } else {
+      return EMPTY;
     }
+  }
+
+  public manageLikeSystem(type: string, newValue: string): void {
+    this.manageBottonLikeSystem(type);
+    this.manageUpdatingSystem(type, newValue).subscribe({
+      next: () => this.manageBottonLikeSystem(type),
+    });
   }
 
   get isConnectRSO(): boolean {
     return !!this.comment?.hubUser?.summonerName;
   }
 
-  public createEvaluation(evaluation: EvaluationBase) {
-    this.evaluationService
+  public createEvaluation(
+    evaluation: EvaluationBase
+  ): Observable<EvaluationLinks> {
+    return this.evaluationService
       .createEvaluation(this.comment?.id!, evaluation)
-      .subscribe({
-        next: (evaluation) => {
-          this.hubUserEvaluation = evaluation;
-          this.comment?.evaluations.push(evaluation);
+      .pipe(
+        tap((newEvaluation: EvaluationLinks) => {
+          this.hubUserEvaluation = newEvaluation;
+          this.comment?.evaluations.push(newEvaluation);
 
-          evaluation.level === EvaluationLevel.GOOD
-            ? this.numLikes++
-            : this.numUnlikes++;
+          newEvaluation.level === EvaluationLevel.GOOD
+            ? this.comment!.numGoodEvaluation++
+            : this.comment!.numBadEvaluation++;
+
           this.cdr.markForCheck();
-        },
-      });
+        })
+      );
   }
 
-  public updateEvaluation(evaluation: EvaluationBase) {
-    this.evaluationService
+  public updateEvaluation(
+    evaluation: EvaluationBase
+  ): Observable<EvaluationLinks> {
+    return this.evaluationService
       .updateEvaluation(
         this.comment?.id!,
         this.hubUserEvaluation!.id,
         evaluation
       )
-      .subscribe({
-        next: (evaluation) => {
-          if (this.comment)
-            // Após atualizar a base,
-            this.comment.evaluations = this.comment?.evaluations.map(
+      .pipe(
+        tap((updatedEvaluation: EvaluationLinks) => {
+          if (this.comment) {
+            this.comment.evaluations = this.comment.evaluations.map(
               (evaluationFromComment) =>
-                evaluationFromComment.id === evaluation.id
-                  ? { ...evaluation } // Retorna um novo objeto com o preço atualizado
-                  : evaluationFromComment // Retorna o produto inalterado
-            )!;
-          if (evaluation.level === EvaluationLevel.GOOD) {
-            this.numLikes++;
-            this.numUnlikes--;
-          } else {
-            this.numLikes--;
-            this.numUnlikes++;
+                evaluationFromComment.id === updatedEvaluation.id
+                  ? { ...updatedEvaluation }
+                  : evaluationFromComment
+            );
           }
-          this.hubUserEvaluation = evaluation;
+
+          if (updatedEvaluation.level === EvaluationLevel.GOOD) {
+            this.comment!.numGoodEvaluation++;
+            this.comment!.numBadEvaluation--;
+          } else {
+            this.comment!.numBadEvaluation++;
+            this.comment!.numGoodEvaluation--;
+          }
+
+          this.hubUserEvaluation = updatedEvaluation;
           this.cdr.markForCheck();
-        },
-      });
+        })
+      );
   }
 
-  public deleteEvaluation() {
-    this.evaluationService
+  public deleteEvaluation(): Observable<void> {
+    return this.evaluationService
       .deleteEvaluation(this.comment?.id!, this.hubUserEvaluation!.id)
-      .subscribe({
-        next: () => {
-          if (this.comment)
-            this.comment.evaluations = this.comment?.evaluations.filter(
+      .pipe(
+        tap(() => {
+          if (this.comment) {
+            this.comment.evaluations = this.comment.evaluations.filter(
               (evaluationFromComment) =>
                 evaluationFromComment.id !== this.hubUserEvaluation!.id
             );
-          this.hubUserEvaluation?.level === EvaluationLevel.GOOD
-            ? this.numLikes--
-            : this.numUnlikes--;
+          }
+
+          if (this.hubUserEvaluation?.level === EvaluationLevel.GOOD) {
+            this.comment!.numGoodEvaluation--;
+          } else {
+            this.comment!.numBadEvaluation--;
+          }
+
           this.hubUserEvaluation = undefined;
           this.cdr.markForCheck();
-        },
-      });
+        })
+      );
   }
 
-  get hubUserImg(): string{
+  get hubUserImg(): string {
     return this.hubUserService.getImgHubUser(this.comment?.hubUser.email!);
   }
 

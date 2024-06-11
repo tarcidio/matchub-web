@@ -4,6 +4,8 @@ export class CommentLinks extends CommentBase{
     constructor(
         public override text: string,
         public id: number,
+        public numGoodEvaluation: number,
+        public numBadEvaluation: number,
     
         public creationDate: string,
         public creationTime: string,
