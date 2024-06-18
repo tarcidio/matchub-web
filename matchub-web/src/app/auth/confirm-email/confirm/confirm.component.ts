@@ -102,6 +102,8 @@ EXTRA)
 
 6h 
 
+>> Tirar tudo que está no assests e jogar no s3
+
 
 >> AWS S3 e IAM
  >> Problemas com Cache
