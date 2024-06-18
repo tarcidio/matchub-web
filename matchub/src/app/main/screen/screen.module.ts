@@ -10,6 +10,7 @@ import { CommentComponent } from './components/comment/comment.component';
 import { UserCommentComponent } from './components/user-comment/user-comment.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,15 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsM
     ChampionsComponent,
     CommentsComponent,
     CommentComponent,
-    UserCommentComponent
+    UserCommentComponent,
   ],
-  imports: [CommonModule, ScreenRoutingModule, SharedModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ScreenRoutingModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+  ],
 })
 export class ScreenModule {}

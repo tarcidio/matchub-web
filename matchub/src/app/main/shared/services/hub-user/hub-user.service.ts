@@ -10,16 +10,16 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { Store } from '../../../../classes/store/store';
-import { HubUserDetails } from '../../../../classes/dto/hub-user/hub-user-details/hub-user-details';
+import { Store } from '../../../../shared/classes/store/store';
+import { HubUserDetails } from '../../../../shared/classes/dto/hub-user/hub-user-details/hub-user-details';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HubUserBase } from '../../../../classes/dto/hub-user/hub-user-base/hub-user-base';
-import { HubUserLinks } from '../../../../classes/dto/hub-user/hub-user-links/hub-user-links';
-import { ChangePassword } from '../../../../classes/auth/change-password/change-password';
-import { HubUserImage } from '../../../../classes/dto/hub-user/hub-user-image/hub-user-image';
-import { ResetPassword } from '../../../../classes/auth/reset-password/reset-password';
+import { HubUserBase } from '../../../../shared/classes/dto/hub-user/hub-user-base/hub-user-base';
+import { HubUserLinks } from '../../../../shared/classes/dto/hub-user/hub-user-links/hub-user-links';
+import { ChangePassword } from '../../../../shared/classes/auth/change-password/change-password';
+import { HubUserImage } from '../../../../shared/classes/dto/hub-user/hub-user-image/hub-user-image';
+import { ResetPassword } from '../../../../shared/classes/auth/reset-password/reset-password';
 import { AuthService } from '../../../../auth/shared/service/auth.service';
-import { AuthResponse } from '../../../../classes/auth/auth-response/auth-response';
+import { AuthResponse } from '../../../../shared/classes/auth/auth-response/auth-response';
 
 @Injectable({
   providedIn: 'root',

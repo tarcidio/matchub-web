@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ChampionDetails } from '../../../../classes/dto/champion/champion-details/champion-details';
-import { Store } from '../../../../classes/store/store';
+import { ChampionDetails } from '../../../../shared/classes/dto/champion/champion-details/champion-details';
+import { Store } from '../../../../shared/classes/store/store';
 
 @Injectable({
   providedIn: 'root',

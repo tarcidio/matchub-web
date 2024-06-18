@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ChampionDetails } from '../../../classes/dto/champion/champion-details/champion-details';
+import { ChampionDetails } from '../../../shared/classes/dto/champion/champion-details/champion-details';
 import { ChampionService } from '../../shared/services/champion/champion.service';
 import { Router } from '@angular/router';
 

@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { CommentBase } from '../../../../classes/dto/comment/comment-base/comment-base';
+import { CommentBase } from '../../../../shared/classes/dto/comment/comment-base/comment-base';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';

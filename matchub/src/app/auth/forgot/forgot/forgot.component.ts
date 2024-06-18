@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../shared/service/auth.service';
-import { ForgotPassword } from '../../../classes/auth/forgot-password/forgot-password';
-import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
+import { ForgotPassword } from '../../../shared/classes/auth/forgot-password/forgot-password';
+import { ModalUpdateComponent } from '../../../shared/modal/modal-update/modal-update.component';
 
 @Component({
   selector: 'app-forgot',

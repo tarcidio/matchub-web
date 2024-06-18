@@ -118,51 +118,11 @@
   </div>
 
   <div class="button-quit-container">
-    <button (click)="activateModalExit()">Quit</button>
+    <button (click)="confirmExit()">Quit</button>
   </div>
 
-  <!-- Modal de Atualização -->
-  <div
-    class="modal modal-update"
-    *ngIf="isModalUpdate"
-    (click)="disableModalUpdate()"
-  >
-    <div
-      class="modal-content modal-content-update"
-      (click)="$event.stopPropagation()"
-      (keydown.enter)="disableModalUpdate()"
-    >
-      <h2>{{ titleModal }}</h2>
-      <p>{{ messageModal }}</p>
-      <button
-        class="close-button close-button-update"
-        (click)="disableModalUpdate()"
-      >
-        Back
-      </button>
-    </div>
-  </div>
-
-  <!-- Modal de Saída -->
-  <div
-    class="modal modal-exit"
-    *ngIf="isModalExit"
-    (click)="disableModalExit()"
-  >
-    <div
-      class="modal-content modal-content-exit"
-      (click)="$event.stopPropagation()"
-    >
-      <h2>Confirmation</h2>
-      <p>Do you really want to leave?</p>
-      <button class="exit-button yes-button" (click)="confirmExit()">
-        Yes
-      </button>
-      <button class="exit-button no-button" (click)="disableModalExit()">
-        No
-      </button>
-    </div>
-  </div>
+  <app-modal-update #modalUpdate></app-modal-update>
+  <app-modal-exit #modalExit></app-modal-exit>
 
   <!-- Modal de Upload de Imagem -->
   <div

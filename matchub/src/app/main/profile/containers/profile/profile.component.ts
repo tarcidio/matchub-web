@@ -1,11 +1,20 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { HubUserDetails } from '../../../../classes/dto/hub-user/hub-user-details/hub-user-details';
+import {
+  ChangeDetectorRef,
+  ViewChild,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { HubUserDetails } from '../../../../shared/classes/dto/hub-user/hub-user-details/hub-user-details';
 import { Observable, Subject, map, of, switchMap, take, takeUntil } from 'rxjs';
 import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../auth/shared/service/auth.service';
-import { HubUserBase } from '../../../../classes/dto/hub-user/hub-user-base/hub-user-base';
-import { ChangePassword } from '../../../../classes/auth/change-password/change-password';
+import { HubUserBase } from '../../../../shared/classes/dto/hub-user/hub-user-base/hub-user-base';
+import { ChangePassword } from '../../../../shared/classes/auth/change-password/change-password';
+import { ModalUpdateComponent } from '../../../../shared/modal/modal-update/modal-update.component';
+import { HubUserLinks } from '../../../../shared/classes/dto/hub-user/hub-user-links/hub-user-links';
+import { ModalExitComponent } from '../../../../shared/modal/modal-exit/modal-exit/modal-exit.component';
 
 @Component({
   selector: 'app-profile',
@@ -13,9 +22,13 @@ import { ChangePassword } from '../../../../classes/auth/change-password/change-
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent implements OnInit, OnDestroy {
+  @ViewChild(ModalUpdateComponent) modalUpdate:
+    | ModalUpdateComponent
+    | undefined;
+  @ViewChild(ModalExitComponent) modalExit: ModalExitComponent | undefined;
 
   private destroy$ = new Subject<void>();
-  
+
   constructor(
     private hubUserService: HubUserService,
     private authService: AuthService,
@@ -25,7 +38,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   hubUserImg$: Observable<string> | undefined;
 
   ngOnInit(): void {
-    this.hubUserService.getLoggedHubUser().pipe(takeUntil(this.destroy$)).subscribe();
+    this.hubUserService
+      .getLoggedHubUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
     this.loadInitialData();
     this.hubUserImg$ = this.hubUserService.getImgLoggedHubUser();
   }
@@ -78,60 +94,27 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   /* MANAGE UPDATES */
-
-  isModalUpdate: boolean = false;
-  titleModal: string | undefined;
-  messageModal: string | undefined;
-
-  private activateModalUpdate(
-    type: string = 'sucess',
-    message: string = 'Your information has been updated successfully'
-  ): void {
-    this.isModalUpdate = true;
-    if (type === 'fail') {
-      this.titleModal = 'Error updating information';
-      this.messageModal = message;
-    } else if (type === 'sucess') {
-      this.titleModal = 'Change Made';
-      this.messageModal = message;
-    }
-  }
-
-  public disableModalUpdate(): void {
-    this.isModalUpdate = false;
-  }
-
   private updateHubUser(
     newNickName?: string,
     newFirstName?: string,
     newLastName?: string,
     newEmail?: string
-  ): void {
-    this.hubUserService
-      .getHubUser()
-      .pipe(
-        take(1), // Avoid recursion
-        map((hubUser: HubUserDetails) => {
-          return new HubUserBase(
-            newNickName || hubUser.nickname,
-            newFirstName || hubUser.firstname,
-            newLastName || hubUser.lastname,
-            newEmail || hubUser.email,
-            hubUser.region
-          );
-        }),
-        switchMap((hubUser: HubUserBase) =>
-          this.hubUserService.updateHubUser(hubUser)
-        )
+  ): Observable<HubUserLinks> {
+    return this.hubUserService.getHubUser().pipe(
+      take(1), // Avoid recursion
+      map((hubUser: HubUserDetails) => {
+        return new HubUserBase(
+          newNickName || hubUser.nickname,
+          newFirstName || hubUser.firstname,
+          newLastName || hubUser.lastname,
+          newEmail || hubUser.email,
+          hubUser.region
+        );
+      }),
+      switchMap((hubUser: HubUserBase) =>
+        this.hubUserService.updateHubUser(hubUser)
       )
-      .subscribe({
-        next: () => {
-          this.activateModalUpdate();
-        },
-        error: (err) => {
-          this.activateModalUpdate('fail', err.message);
-        },
-      });
+    );
   }
 
   formUserInformation: FormGroup = this.fb.group({
@@ -148,11 +131,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
       let newFirstName: string | undefined = undefined;
       let newLastName: string | undefined = undefined;
       let newEmail: string | undefined = undefined;
-      this.updateHubUser(newNickName, newFirstName, newLastName, newEmail);
+      this.updateHubUser(
+        newNickName,
+        newFirstName,
+        newLastName,
+        newEmail
+      ).subscribe({
+        next: () => {
+          this.modalUpdate!.activateModalUpdate(
+            'Change Made',
+            'Your information has been updated successfully',
+            'main/profile',
+            'Back to Profile'
+          );
+        },
+        error: (err) => {
+          this.modalUpdate!.activateModalUpdate(
+            'Error updating information',
+            err.message,
+            'main/profile',
+            'Back to Profile'
+          );
+        },
+      });
     } else {
-      this.activateModalUpdate(
-        'fail',
-        'Please choose a valid nickname (2-15 characters).'
+      this.modalUpdate!.activateModalUpdate(
+        'Error updating information',
+        'Please choose a valid nickname (2-15 characters).',
+        'main/profile',
+        'Back to Profile'
       );
     }
   }
@@ -196,16 +203,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.updateHubUser(newNickName, newFirstName, newLastName, newEmail);
     } else {
       if (this.emailInvalid)
-        this.activateModalUpdate('fail', 'Please enter a valid email address.');
+        this.modalUpdate!.activateModalUpdate(
+          'Error updating information',
+          'Please choose a valid nickname (2-15 characters).',
+          'main/profile',
+          'Back to Profile'
+        );
       else if (this.lastNameInvalid)
-        this.activateModalUpdate(
-          'fail',
-          'Please enter a valid last name (2-30 characters).'
+        this.modalUpdate!.activateModalUpdate(
+          'Error updating information',
+          'Please enter a valid last name (2-30 characters).',
+          'main/profile',
+          'Back to Profile'
         );
       else if (this.firstNameInvalid)
-        this.activateModalUpdate(
-          'fail',
-          'Please enter a valid first name (2-30 characters).'
+        this.modalUpdate!.activateModalUpdate(
+          'Error updating information',
+          'Please enter a valid first name (2-30 characters).',
+          'main/profile',
+          'Back to Profile'
         );
     }
   }
@@ -251,14 +267,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public changePassword(): void {
     if (this.passwordInvalid) {
-      this.activateModalUpdate(
-        'fail',
-        'Password must include uppercase, lowercase, number, special character, and be at least 8 characters long.'
+      this.modalUpdate!.activateModalUpdate(
+        'Error updating information',
+        'Password must include uppercase, lowercase, number, special character, and be at least 8 characters long.',
+        'main/profile',
+        'Back to Profile'
       );
     } else if (this.confirmPasswordInvalid) {
-      this.activateModalUpdate(
-        'fail',
-        'Password confirmation does not match the password.'
+      this.modalUpdate!.activateModalUpdate(
+        'Error updating information',
+        'Password confirmation does not match the password.',
+        'main/profile',
+        'Back to Profile'
       );
     } else if (this.formChangePassword.valid) {
       let currentPassword: string =
@@ -273,28 +293,35 @@ export class ProfileComponent implements OnInit, OnDestroy {
         )
         .subscribe({
           next: () => {
-            this.activateModalUpdate();
+            this.modalUpdate!.activateModalUpdate(
+              'Change Made',
+              'Your information has been updated successfully',
+              'main/profile',
+              'Back to Profile'
+            );
           },
           error: (err) => {
-            this.activateModalUpdate('fail', err.message);
+            this.modalUpdate!.activateModalUpdate(
+              'Error updating information',
+              err.massage,
+              'main/profile',
+              'Back to Profile'
+            );
           },
         });
     } else {
-      this.activateModalUpdate('fail', 'Unexpected error.');
+      this.modalUpdate!.activateModalUpdate(
+        'Error updating information',
+        'Unexpected error.',
+        'main/profile',
+        'Back to Profile'
+      );
     }
   }
 
-  isModalExit: boolean = false;
-  public activateModalExit(): void {
-    this.isModalExit = true;
-  }
-
   public confirmExit(): void {
-    this.authService.logout().subscribe();
-  }
-
-  public disableModalExit(): void {
-    this.isModalExit = false;
+    let executeExit : Function = () => this.authService.logout().subscribe();
+    this.modalExit!.activateModalExit(executeExit);
   }
 
   // Uplado img
@@ -362,16 +389,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.hubUserService.upload(this.imgSrc).subscribe({
         next: () => {
           this.disableModalUpload();
-          this.activateModalUpdate();
+          this.modalUpdate!.activateModalUpdate(
+            'Change Made',
+            'Your information has been updated successfully',
+            'main/profile',
+            'Back to Profile'
+          );
         },
         error: (err) => {
           this.disableModalUpload();
-          this.activateModalUpdate('fail', err.message);
+          this.modalUpdate!.activateModalUpdate(
+            'Error updating information',
+            err.massage,
+            'main/profile',
+            'Back to Profile'
+          );
         },
       });
     } else {
       this.disableModalUpload();
-      this.activateModalUpdate('fail', 'No image found');
+      this.modalUpdate!.activateModalUpdate(
+        'Error updating information',
+        'No image found',
+        'main/profile',
+        'Back to Profile'
+      );
     }
   }
 }

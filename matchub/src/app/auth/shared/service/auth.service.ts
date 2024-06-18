@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,14 +8,13 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { BehaviorSubject, EMPTY, Observable, throwError } from 'rxjs';
-import { SignUp } from '../../../classes/auth/signUp/sign-up';
-import { AuthResponse } from '../../../classes/auth/auth-response/auth-response';
-import { Login } from '../../../classes/auth/login/login';
+import { SignUp } from '../../../shared/classes/auth/signUp/sign-up';
+import { AuthResponse } from '../../../shared/classes/auth/auth-response/auth-response';
+import { Login } from '../../../shared/classes/auth/login/login';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Store } from '../../../classes/store/store';
-import { ForgotPassword } from '../../../classes/auth/forgot-password/forgot-password';
-import { ResetPassword } from '../../../classes/auth/reset-password/reset-password';
+import { Store } from '../../../shared/classes/store/store';
+import { ForgotPassword } from '../../../shared/classes/auth/forgot-password/forgot-password';
 
 @Injectable({
   providedIn: 'root',

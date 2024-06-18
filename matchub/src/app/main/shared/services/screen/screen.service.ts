@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { ScreenDetails } from '../../../../classes/dto/screen/screen-details/screen-details';
+import { ScreenDetails } from '../../../../shared/classes/dto/screen/screen-details/screen-details';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HubUserService } from '../../../../main/shared/services/hub-user/hub-user.service';
+import { HubUserService } from '../../../main/shared/services/hub-user/hub-user.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 
@@ -41,27 +41,18 @@ export class ConfirmComponent implements OnInit {
   }
 }
 /*
->> FAZENDO AGORA:
-1. FEITO: Não deixar fazer nada na aplicação se o email não tiver checado
-2. FEITO: Discutir na implementação, que preferiu usar o jwt como token para checagem
-3. FEITO: Fazer script para limpar que não está checkado a cada 24 hroas
-4. FEITO: Fazer script para limpar a tabela de tokens inválidos a cada 24 horas
-5. Deixcar apenas o token service chamar o jwt service
-
 AMBOS
-1) Jogar o código no Boost e pedir para comentar ou sugestões de melhoria
 2) Dockerizar todo mundo e criar docker compose
+1) Jogar o código no Boost e pedir para comentar ou sugestões de melhoria
 3) Fazer os arquivos de testes
 4) Pegar as pesquisas que fiz no Boost e jogar no notion para fazer caderninho
 
 BACKEND
-1) Alterar backend para que possa integrar com a tela de confirmação de e-mail
 2) Adicionar API Google Drive para selecionar da onde vai vim as imagens
 2) Criar Handler Excetion
 4) Passar em cada arquivo do Backende e verificar como tratar os erros no Hangle Exception
 5) Criar procedure no banco para adicionar novo champion
 6) Criar script sql, criar indices procedures etc.
-7) Colocar tudo que é siligiloso no properties em algum outro JSON
 8) No domain, colocar dto separados por tipo de domain
 9) Retirar o atributo img do champion
 10) Padronizar o tipo de DTO que os endpoints retornam
@@ -72,10 +63,7 @@ BACKEND
 15) Granular os erros na BD para registro: usuario já existe? email? etc.
 16) Criptografar os cookies
 17) Criar verbose para para toda chamada para mapear rquisições
-18) Integração de fila sqs ()
 19) Verificar o que pode ficar dentro do token service (muita manipulação de jwt etc)
-20) Colocar coisas do properties no variavel ambiente
-21) Separar amazon service
 
 22) Explicar como mexi na interface grafica da amazon para s3 e sqs
 23) Mesma coisa para API do Google
@@ -107,6 +95,7 @@ resetar senha
 GIT
 1) Alterar a Licença de MIT para Apache
 2) Fazer Readme do back e do front
+3) Falar dos id artificiais
 
 EXTRA)
 1) Ver como tá o código dos meninos para ver onde posso melhorar

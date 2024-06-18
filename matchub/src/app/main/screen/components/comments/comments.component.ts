@@ -1,7 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { CommentDetails } from '../../../../classes/dto/comment/comment-details/comment-details';
-import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
-import { EvaluationLevel } from '../../../../classes/enums/evaluation-level/evaluation-level';
+import { CommentDetails } from '../../../../shared/classes/dto/comment/comment-details/comment-details';
 
 @Component({
   selector: 'app-comments',

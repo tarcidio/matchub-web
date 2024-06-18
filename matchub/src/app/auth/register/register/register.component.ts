@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
-import { SignUp } from '../../../classes/auth/signUp/sign-up';
+import { SignUp } from '../../../shared/classes/auth/signUp/sign-up';
 import { AuthService } from '../../shared/service/auth.service';
 import { Router } from '@angular/router';
-import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
+import { ModalUpdateComponent } from '../../../shared/modal/modal-update/modal-update.component';
 
 @Component({
   selector: 'app-register',
@@ -108,7 +108,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      this.isLoading = true;  // Inicia o carregamento
+      this.isLoading = true; // Inicia o carregamento
       const hubUser: SignUp = new SignUp(
         // It's need afirm that isn't null
         this.form.get('email')!.value!,
@@ -121,7 +121,7 @@ export class RegisterComponent {
 
       this.authService.registerUser(hubUser).subscribe({
         next: () => {
-          this.isLoading = false;  // Termina o carregamento
+          this.isLoading = false; // Termina o carregamento
           this.modal!.activateModalUpdate(
             'Email Confirmation Required',
             'Thank you for registering! \n\n' +
@@ -135,15 +135,15 @@ export class RegisterComponent {
           );
         },
         error: (err) => {
-          this.isLoading = false;  // Termina o carregamento
+          this.isLoading = false; // Termina o carregamento
           this.modal!.activateModalUpdate(
             'Username or Email Already Registered',
-            'The email or username provided is already associated with an existing account.\n\n' + 
-            'If you think this is a mistake or if you have forgotten your password, ' + 
-            'try resetting it through our password recovery options. \n\n' + 
-            'If you do not remember creating an account or need further assistance, ' + 
-            'check your previous emails or contact User Support. \n\n' + 
-            'We appreciate your understanding and are here to help.',
+            'The email or username provided is already associated with an existing account.\n\n' +
+              'If you think this is a mistake or if you have forgotten your password, ' +
+              'try resetting it through our password recovery options. \n\n' +
+              'If you do not remember creating an account or need further assistance, ' +
+              'check your previous emails or contact User Support. \n\n' +
+              'We appreciate your understanding and are here to help.',
             'auth/login',
             'Back to login'
           );

@@ -19,7 +19,8 @@
       class="like-unlike-button like-button"
     >
       <span *ngIf="!isUpdatingLike">Like</span>
-      <i *ngIf="isUpdatingLike" class="fas fa-spinner fa-spin"></i>
+      <!-- <i *ngIf="isUpdatingLike" class="fas fa-spinner fa-spin"></i> -->
+      <mat-icon *ngIf="isUpdatingLike" class="spinner">autorenew</mat-icon>
     </button>
     <button
       *ngIf="hasLiked"
@@ -27,7 +28,8 @@
       class="like-unlike-button like-button liked"
     >
       <span *ngIf="!isUpdatingLike">Liked</span>
-      <i *ngIf="isUpdatingLike" class="fas fa-spinner fa-spin"></i>
+      <!-- <i *ngIf="isUpdatingLike" class="fas fa-spinner fa-spin"></i> -->
+      <mat-icon *ngIf="isUpdatingLike" class="spinner">autorenew</mat-icon>
     </button>
     <span class="likes-unlikes-count">{{ comment?.numGoodEvaluation }}</span>
     <span class="likes-unlikes-count">{{ comment?.numBadEvaluation }}</span>
@@ -37,7 +39,8 @@
       class="like-unlike-button unlike-button"
     >
       <span *ngIf="!isUpdatingUnLike">Unlike</span>
-      <i *ngIf="isUpdatingUnLike" class="fas fa-spinner fa-spin"></i>
+      <!-- <i *ngIf="isUpdatingUnLike" class="fas fa-spinner fa-spin"></i> -->
+      <mat-icon *ngIf="isUpdatingUnLike" class="spinner">autorenew</mat-icon>
     </button>
     <button
       *ngIf="hasUnliked"
@@ -45,7 +48,8 @@
       class="like-unlike-button unlike-button unliked"
     >
       <span *ngIf="!isUpdatingUnLike">Unliked</span>
-      <i *ngIf="isUpdatingUnLike" class="fas fa-spinner fa-spin"></i>
+      <!-- <i *ngIf="isUpdatingUnLike" class="fas fa-spinner fa-spin"></i> -->
+      <mat-icon *ngIf="isUpdatingUnLike" class="spinner">autorenew</mat-icon>
     </button>
   </div>
 

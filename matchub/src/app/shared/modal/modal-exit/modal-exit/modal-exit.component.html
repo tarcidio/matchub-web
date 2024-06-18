@@ -1,0 +1,14 @@
+<!-- Modal de Saída -->
+<div class="modal modal-exit" *ngIf="isModalExit" (click)="disableModalExit()">
+  <div
+    class="modal-content modal-content-exit"
+    (click)="$event.stopPropagation()"
+  >
+    <h2>{{ titleModal }}</h2>
+    <p [innerHTML]="formattedMessage"></p>
+    <button class="exit-button yes-button" (click)="confirmExit()">Yes</button>
+    <button class="exit-button no-button" (click)="disableModalExit()">
+      No
+    </button>
+  </div>
+</div>

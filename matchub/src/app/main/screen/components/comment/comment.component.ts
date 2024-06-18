@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { CommentDetails } from '../../../../classes/dto/comment/comment-details/comment-details';
-import { EvaluationBase } from '../../../../classes/dto/evaluation/evaluation-base/evaluation-base';
-import { EvaluationLevel } from '../../../../classes/enums/evaluation-level/evaluation-level';
+import { CommentDetails } from '../../../../shared/classes/dto/comment/comment-details/comment-details';
+import { EvaluationBase } from '../../../../shared/classes/dto/evaluation/evaluation-base/evaluation-base';
+import { EvaluationLevel } from '../../../../shared/classes/enums/evaluation-level/evaluation-level';
 import { EvaluationService } from '../../../shared/services/evaluation/evaluation.service';
 import { HubUserService } from '../../../shared/services/hub-user/hub-user.service';
-import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
+import { EvaluationLinks } from '../../../../shared/classes/dto/evaluation/evaluation-links/evaluation-links';
 import { EMPTY, Observable, tap } from 'rxjs';
 
 @Component({
@@ -23,7 +23,7 @@ export class CommentComponent implements OnInit {
   isUpdatingLike: boolean = false;
   isUpdatingUnLike: boolean = false;
 
-  isOwner: boolean = true;
+  isOwner: boolean = false;
 
   constructor(
     private evaluationService: EvaluationService,
@@ -36,20 +36,24 @@ export class CommentComponent implements OnInit {
       next: (hubUserId) => {
         if (hubUserId) {
           // Se houver um usuário conectado
-          // Procura nas avaliações do comentário se alguém pertence a ele
-          const foundEvaluation: EvaluationLinks | undefined =
-            this.comment?.evaluations.find(
-              (evaluation) => evaluation.hubUserId === hubUserId
-            );
-          // Se houver algum
-          if (foundEvaluation) {
-            // Atualiza o objeto relativo a avalição do usuário para aquele comentário
-            this.hubUserEvaluation = foundEvaluation;
-            // Atualiza indicadores de like e unlike
-            foundEvaluation.level === EvaluationLevel.GOOD
-              ? (this.hasLiked = true)
-              : (this.hasUnliked = true);
-            this.cdr.markForCheck();
+          this.isOwner = hubUserId === this.comment?.hubUser.id;
+
+          if (!this.isOwner) {
+            // Procura nas avaliações do comentário se alguém pertence a ele
+            const foundEvaluation: EvaluationLinks | undefined =
+              this.comment?.evaluations.find(
+                (evaluation) => evaluation.hubUserId === hubUserId
+              );
+            // Se houver algum
+            if (foundEvaluation) {
+              // Atualiza o objeto relativo a avalição do usuário para aquele comentário
+              this.hubUserEvaluation = foundEvaluation;
+              // Atualiza indicadores de like e unlike
+              foundEvaluation.level === EvaluationLevel.GOOD
+                ? (this.hasLiked = true)
+                : (this.hasUnliked = true);
+              this.cdr.markForCheck();
+            }
           }
         }
       },

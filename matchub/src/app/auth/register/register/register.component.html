@@ -133,7 +133,8 @@
 
       <button type="submit" class="register-button" [disabled]="isLoading">
         <span *ngIf="!isLoading">Register</span>
-        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+        <!-- <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i> -->
+        <mat-icon *ngIf="isLoading" class="spinner">autorenew</mat-icon>
       </button>
     </form>
     <app-modal-update #modal></app-modal-update>

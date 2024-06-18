@@ -8,6 +8,8 @@ import { MainModule } from './main/main.module';
 
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AuthService } from './auth/shared/service/auth.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ModalModule } from './shared/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { AuthService } from './auth/shared/service/auth.service';
     AppRoutingModule,
     AuthModule,
     MainModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule
     //provideHttpClient(withFetch())
   ],
   providers: [
@@ -32,7 +35,8 @@ import { AuthService } from './auth/shared/service/auth.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthService,
       multi: true
-    }
+    },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

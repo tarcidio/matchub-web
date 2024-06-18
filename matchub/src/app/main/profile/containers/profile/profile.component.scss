@@ -182,61 +182,6 @@ input,
   font-weight: bold;
 }
 
-/* Estilos específicos para o Modal de Atualização */
-.modal-update .modal-content-update {
-  background-color: #222;
-  border: 1px solid #555;
-  width: 30%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.modal-update .close-button-update {
-  background-color: #444;
-}
-
-.modal-update .close-button-update:hover {
-  background-color: #555;
-  transform: scale(1.05);
-}
-
-/* Estilos específicos para o Modal de Saída */
-.modal-exit .modal-content-exit {
-  background-color: #333;
-  border: 1px solid #666;
-  width: 25%;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4), 0 7px 25px rgba(0, 0, 0, 0.4);
-}
-
-.exit-button {
-  padding: 10px 20px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  margin: 5px;
-  font-weight: bold;
-}
-
-.yes-button {
-  background-color: #d9534f; /* Bootstrap's btn-danger color */
-}
-
-.yes-button:hover {
-  background-color: #c9302c;
-  transform: scale(1.1);
-}
-
-.no-button {
-  background-color: #555;
-}
-
-.no-button:hover {
-  background-color: #666;
-  transform: scale(1.1);
-}
-
 // Modal de upload
 
 /* Estilos específicos para o Modal de Upload */

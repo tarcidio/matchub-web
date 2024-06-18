@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EvaluationBase } from '../../../../classes/dto/evaluation/evaluation-base/evaluation-base';
+import { EvaluationBase } from '../../../../shared/classes/dto/evaluation/evaluation-base/evaluation-base';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EvaluationLinks } from '../../../../classes/dto/evaluation/evaluation-links/evaluation-links';
+import { EvaluationLinks } from '../../../../shared/classes/dto/evaluation/evaluation-links/evaluation-links';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ChampionService } from '../../../shared/services/champion/champion.service';
-import { ChampionDetails } from '../../../../classes/dto/champion/champion-details/champion-details';
+import { ChampionDetails } from '../../../../shared/classes/dto/champion/champion-details/champion-details';
 
 @Component({
   selector: 'app-champions',

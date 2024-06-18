@@ -2,9 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HubUserService } from '../../../main/shared/services/hub-user/hub-user.service';
 import { ActivatedRoute } from '@angular/router';
-import { ResetPassword } from '../../../classes/auth/reset-password/reset-password';
-import { switchMap, tap } from 'rxjs';
-import { ModalUpdateComponent } from '../../shared/modal-update/modal-update.component';
+import { ResetPassword } from '../../../shared/classes/auth/reset-password/reset-password';
+import { switchMap } from 'rxjs';
+import { ModalUpdateComponent } from '../../../shared/modal/modal-update/modal-update.component';
 
 @Component({
   selector: 'app-reset',

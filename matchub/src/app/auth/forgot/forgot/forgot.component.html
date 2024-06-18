@@ -19,7 +19,7 @@
 
       <button type="submit" class="submit-button" [disabled]="isLoading">
         <span *ngIf="!isLoading">→</span>
-        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+        <mat-icon *ngIf="isLoading" class="spinner">autorenew</mat-icon>
       </button>
     </form>
     <app-modal-update #modal></app-modal-update>
