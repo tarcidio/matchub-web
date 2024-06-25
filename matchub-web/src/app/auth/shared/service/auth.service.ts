@@ -158,6 +158,7 @@ export class AuthService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return request.url === this.REFRESH_TOKEN_URL ||
       request.url === this.FORGOT_PASSWORD_URL ||
+      request.url === this.REGISTER_URL ||
       request.url === this.CONFIRM_EMAIL_URL
       ? next.handle(request)
       : next.handle(request).pipe(
