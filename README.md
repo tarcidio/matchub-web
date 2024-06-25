@@ -8,7 +8,9 @@ MatcHub is an interactive platform for League of Legends players, providing a sp
 
 ### Register
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=hcu2P-2pc50&list=PLp_jKiMekEMARL6Nt7IrfuCg6Y9INYrZ9&index=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.youtube.com/watch?v=DlC8ZJvj3S4&list=PLp_jKiMekEMARL6Nt7IrfuCg6Y9INYrZ9&index=4" width="320" height="240" controls>
+  Seu navegador não suporta o elemento <code>video</code>.
+</video
 
 ---
 
